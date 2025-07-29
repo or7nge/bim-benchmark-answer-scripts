@@ -1,0 +1,100 @@
+import pandas as pd
+from pathlib import Path
+import importlib.util
+
+
+def run_benchmark_script(ifc_model_path, script_path):
+    """Run a benchmark script on an IFC model and return the result."""
+    try:
+        script_path = Path(script_path)
+
+        if not script_path.exists():
+            return f"Error: Script not found at {script_path}"
+
+        if not Path(ifc_model_path).exists():
+            return f"Error: IFC file not found at {ifc_model_path}"
+
+        # Load the script as a module
+        spec = importlib.util.spec_from_file_location(script_path.stem, script_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        # Try to pass both the IFC path and script path to the function
+        function_name = script_path.stem
+        if hasattr(module, function_name):
+            func = getattr(module, function_name)
+            # Try calling with just IFC path, fallback to both args if needed
+            try:
+                return func(ifc_model_path)
+            except TypeError:
+                return func(ifc_model_path, script_path)
+        else:
+            return f"Error: Function '{function_name}' not found in {script_path}"
+
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def run_full_benchmark(ifc_model_path, csv_path):
+    """
+    Run all benchmark questions from CSV on an IFC model.
+
+    Args:
+        ifc_model_path (str): Path to IFC file
+        csv_path (str): Path to questions.csv
+
+    Returns:
+        dict: Results for all questions {question_id: result}
+    """
+    try:
+        # Read questions CSV
+        df = pd.read_csv(csv_path)
+        results = {}
+
+        selected_indices = list(range(len(df)))
+        for idx in selected_indices:
+            if idx >= len(df):
+                continue
+            row = df.iloc[idx]
+            question_id = row["question_id"]
+            script_path = row["script_path"]
+
+            # Run the script
+            result = run_benchmark_script(ifc_model_path, script_path)
+            results[question_id] = {
+                "question": row["question_text"],
+                "result": result,
+                "difficulty": row["difficulty"],
+                "category": row["category"],
+            }
+
+        return results
+
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+# Usage example
+if __name__ == "__main__":
+    ifc_model_path = "models/sample_house_big.ifc"
+    csv_path = "questions.csv"
+    results = run_full_benchmark(ifc_model_path, csv_path)
+
+    for q_id, data in results.items():
+        print(f"{q_id}: {data['question']}\n{data['result']}\n")
+
+    # Save results to CSV
+    results_df = pd.DataFrame(
+        [
+            {
+                "question_id": q_id,
+                "question": data["question"],
+                "result": data["result"],
+                "difficulty": data["difficulty"],
+                "category": data["category"],
+                "model": ifc_model_path,
+            }
+            for q_id, data in results.items()
+        ]
+    )
+    results_df.to_csv(f"model_benchmarks/{Path(ifc_model_path).stem}_answers.csv", index=False)

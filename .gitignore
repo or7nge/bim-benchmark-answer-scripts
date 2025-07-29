@@ -1,0 +1,7 @@
+models/*
+!models/
+models/.gitkeep
+
+# Ignore all __pycache__ folders and their contents (recursively)
+__pycache__/
+**/__pycache__/
