@@ -1,7 +1,8 @@
+# Ignore all .ifc models (safety reasons)
 models/*
 !models/
 models/.gitkeep
 
-# Ignore all __pycache__ folders and their contents (recursively)
+# Ignore all __pycache__
 __pycache__/
 **/__pycache__/
