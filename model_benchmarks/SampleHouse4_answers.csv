@@ -1,11 +1,11 @@
-question_id,question,result,difficulty,category,model
-Q001,How many walls are there in the building?,5,easy,counting,models/SampleHouse4.ifc
-Q002,How many doors are there in the building?,3,easy,counting,models/SampleHouse4.ifc
-Q003,What are the names of all floors/storeys in the building?,"['Ground Floor', 'Roof']",easy,enumeration,models/SampleHouse4.ifc
-Q004,What is the total floor area of all spaces?,152.57,medium,area_calculation,models/SampleHouse4.ifc
-Q005,What is the total height of the building?,2503.0,medium,geometric_analysis,models/SampleHouse4.ifc
-Q006,What materials are used in the walls?,"['Metal Stud Layer', 'Plaster']",medium,material_analysis,models/SampleHouse4.ifc
-Q007,What is the name and area of the largest space?,"{'name': '4 - Roof', 'area': 76.47}",medium,comparative_analysis,models/SampleHouse4.ifc
-Q008,How many doors are there on each floor?,{'Ground Floor': 3},hard,spatial_relationship,models/SampleHouse4.ifc
-Q009,What is the total area of external walls?,62.44,hard,geometric_analysis,models/SampleHouse4.ifc
-Q010,What is the total volume of all enclosed spaces?,266728.3,hard,volume_calculation,models/SampleHouse4.ifc
+question_id,question,result,difficulty,category,model,time_seconds
+Q001,How many walls are there in the building?,5,easy,counting,models/SampleHouse4.ifc,0.4633486270904541
+Q002,How many doors are there in the building?,3,easy,counting,models/SampleHouse4.ifc,0.18940114974975586
+Q003,What are the names of all floors/storeys in the building?,"['Ground Floor', 'Roof']",easy,enumeration,models/SampleHouse4.ifc,0.19328665733337402
+Q004,What is the total floor area of all spaces?,154.51,medium,area_calculation,models/SampleHouse4.ifc,0.29474449157714844
+Q005,What is the total height of the building?,2503.0,medium,geometric_analysis,models/SampleHouse4.ifc,0.20693540573120117
+Q006,What materials are used in the walls?,"['Metal Stud Layer', 'Plaster']",medium,material_analysis,models/SampleHouse4.ifc,0.21279597282409668
+Q007,What is the name and area of the largest space?,"{'name': '4 - Roof', 'area': 76.47}",medium,comparative_analysis,models/SampleHouse4.ifc,0.20325994491577148
+Q008,How many doors are there on each floor?,{'Ground Floor': 3},hard,spatial_relationship,models/SampleHouse4.ifc,0.19122815132141113
+Q009,What is the total area of external walls?,62.44,hard,geometric_analysis,models/SampleHouse4.ifc,0.2231142520904541
+Q010,What is the total volume of all enclosed spaces?,269.62,hard,volume_calculation,models/SampleHouse4.ifc,0.20408320426940918

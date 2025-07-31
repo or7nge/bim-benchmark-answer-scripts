@@ -46,10 +46,13 @@ def run_full_benchmark(ifc_model_path, csv_path):
     Returns:
         dict: Results for all questions {question_id: result}
     """
+    import time
+
     try:
         # Read questions CSV
         df = pd.read_csv(csv_path)
         results = {}
+        timings = {}
 
         selected_indices = list(range(len(df)))
         for idx in selected_indices:
@@ -59,14 +62,23 @@ def run_full_benchmark(ifc_model_path, csv_path):
             question_id = row["question_id"]
             script_path = row["script_path"]
 
-            # Run the script
+            start_time = time.time()
             result = run_benchmark_script(ifc_model_path, script_path)
+            elapsed = time.time() - start_time
+            timings[question_id] = elapsed
+
             results[question_id] = {
                 "question": row["question_text"],
                 "result": result,
                 "difficulty": row["difficulty"],
                 "category": row["category"],
+                "time": round(elapsed, 3),
             }
+
+        print("Execution times (seconds):")
+        for qid, t in timings.items():
+            print(f"{qid}: {t:.3f}")
+        print(f"Total: {sum(timings.values()):.3f}")
 
         return results
 
@@ -77,9 +89,11 @@ def run_full_benchmark(ifc_model_path, csv_path):
 # Usage example
 if __name__ == "__main__":
     ifc_model_path = "models/sample_house_big.ifc"
+    # ifc_model_path = "models/SampleHouse4.ifc"
     csv_path = "questions.csv"
     results = run_full_benchmark(ifc_model_path, csv_path)
 
+    print("\n")
     for q_id, data in results.items():
         print(f"{q_id}: {data['question']}\n{data['result']}\n")
 
@@ -93,6 +107,7 @@ if __name__ == "__main__":
                 "difficulty": data["difficulty"],
                 "category": data["category"],
                 "model": ifc_model_path,
+                "time_seconds": data["time"],
             }
             for q_id, data in results.items()
         ]

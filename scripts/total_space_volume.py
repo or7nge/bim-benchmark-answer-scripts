@@ -1,43 +1,52 @@
-# scripts/total_space_volume.py
 import ifcopenshell
 import ifcopenshell.util.element
+import ifcopenshell.geom
 
 
 def total_space_volume(ifc_file_path):
-    """Calculate total volume of all enclosed spaces"""
+    """Calculate total space volume from geometry"""
     try:
         ifc_file = ifcopenshell.open(ifc_file_path)
-        spaces = ifc_file.by_type("IfcSpace")
+        spaces = [s for s in ifc_file.by_type("IfcSpace") if hasattr(s, "is_a")]
         total_volume = 0.0
 
+        settings = ifcopenshell.geom.settings()
+        settings.set(settings.USE_WORLD_COORDS, True)
+
         for space in spaces:
-            psets = ifcopenshell.util.element.get_psets(space)
-            space_volume = 0.0
+            try:
+                if hasattr(space, "Representation") and space.Representation:
+                    shape = ifcopenshell.geom.create_shape(settings, space)
+                    if shape:
+                        # Method 1: Try to get volume directly from shape
+                        if hasattr(shape.geometry, "volume"):
+                            volume = shape.geometry.volume
+                            total_volume += volume
+                        else:
+                            # Method 2: Calculate from bounding box
+                            verts = shape.geometry.verts
+                            if len(verts) >= 9:
+                                x_coords = [verts[i] for i in range(0, len(verts), 3)]
+                                y_coords = [verts[i] for i in range(1, len(verts), 3)]
+                                z_coords = [verts[i] for i in range(2, len(verts), 3)]
 
-            # Try to get volume directly
-            for pset_data in psets.values():
-                volume_keys = ["Volume", "NetVolume", "GrossVolume"]
-                for key in volume_keys:
-                    if key in pset_data and pset_data[key]:
-                        space_volume = float(pset_data[key])
-                        break
-                if space_volume > 0:
-                    break
+                                if x_coords and y_coords and z_coords:
+                                    width = max(x_coords) - min(x_coords)
+                                    depth = max(y_coords) - min(y_coords)
+                                    height = max(z_coords) - min(z_coords)
+                                    volume = width * depth * height
+                                    total_volume += volume
+            except:
+                continue
 
-            # Fallback: calculate from area × height
-            if space_volume == 0:
-                area, height = 0.0, 0.0
-                for pset_data in psets.values():
-                    if "Area" in pset_data or "FloorArea" in pset_data:
-                        area = float(pset_data.get("Area") or pset_data.get("FloorArea") or 0)
-                    if "Height" in pset_data:
-                        height = float(pset_data.get("Height") or 0)
+        # Fallback: use calculated floor area × average height
+        if total_volume == 0:
+            from total_floor_area import total_floor_area
 
-                if area > 0:
-                    height = height if height > 0 else 2.7  # default ceiling height
-                    space_volume = area * height
-
-            total_volume += space_volume
+            floor_area = total_floor_area(ifc_file_path)
+            if isinstance(floor_area, (int, float)) and floor_area > 0:
+                average_ceiling_height = 2.7  # meters
+                total_volume = floor_area * average_ceiling_height
 
         return round(total_volume, 2)
 
