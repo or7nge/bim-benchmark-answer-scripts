@@ -1,11 +1,21 @@
-question_id,question_text,difficulty,category,expected_output_type,script_path,description,tags
-Q001,"How many walls are there in the building?",easy,counting,integer,./scripts/count_walls.py,"Counts all IfcWall entities in the IFC model","walls,counting,basic"
-Q002,"How many doors are there in the building?",easy,counting,integer,./scripts/count_doors.py,"Counts all IfcDoor entities in the IFC model","doors,counting,basic"
-Q003,"What are the names of all floors/storeys in the building?",easy,enumeration,list,./scripts/list_storeys.py,"Lists all IfcBuildingStorey names in the model","storeys,floors,enumeration"
-Q004,"What is the total floor area of all spaces?",medium,area_calculation,float,./scripts/total_floor_area.py,"Calculates sum of all IfcSpace floor areas","area,spaces,calculation"
-Q005,"What is the total height of the building?",medium,geometric_analysis,float,./scripts/building_height.py,"Calculates building height from geometric analysis or storey elevations","height,geometry,building"
-Q006,"What materials are used in the walls?",medium,material_analysis,list,./scripts/wall_materials.py,"Extracts unique materials from all wall elements","materials,walls,properties"
-Q007,"What is the name and area of the largest space?",medium,comparative_analysis,dict,./scripts/largest_space.py,"Finds the space with maximum floor area and returns name and area","spaces,area,maximum,comparison"
-Q008,"How many doors are there on each floor?",hard,spatial_relationship,dict,./scripts/doors_per_floor.py,"Groups doors by their containing storey and counts them","doors,floors,spatial,grouping"
-Q009,"What is the total area of external walls?",hard,geometric_analysis,float,./scripts/external_wall_area.py,"Identifies external walls and calculates their total surface area","walls,external,area,classification"
-Q010,"What is the total volume of all enclosed spaces?",hard,volume_calculation,float,./scripts/total_space_volume.py,"Calculates sum of volumes for all IfcSpace entities","volume,spaces,calculation,geometry"
+question_id,question_text,difficulty,expected_output_type,script_path
+Q001,"How many walls are there in the building?",easy,integer,./scripts/count_walls.py
+Q002,"How many doors are there in the building?",easy,integer,./scripts/count_doors.py
+Q003,"What are the names of all floors/storeys in the building?",easy,list,./scripts/list_storeys.py
+Q004,"What is the total floor area of all spaces?",medium,float,./scripts/total_floor_area.py
+Q005,"What is the total height of the building?",medium,float,./scripts/building_height.py
+Q006,"What materials are used in the walls?",medium,list,./scripts/wall_materials.py
+Q007,"What is the name and area of the largest space?",medium,dict,./scripts/largest_space.py
+Q008,"How many doors are there on each floor?",hard,dict,./scripts/doors_per_floor.py
+Q009,"What is the total area of external walls?",hard,float,./scripts/external_wall_area.py
+Q010,"What is the total volume of all enclosed spaces?",hard,float,./scripts/total_space_volume.py
+Q011,"Which direction do most windows face?",medium,string,./scripts/window_orientation.py
+Q012,"What is the ratio of window area to wall area?",hard,float,./scripts/window_to_wall_ratio.py
+Q013,"How many structural columns are there?",easy,integer,./scripts/count_columns.py
+Q014,"What is the average room size in the building?",medium,float,./scripts/average_room_size.py
+Q015,"Which floor has the most rooms?",medium,string,./scripts/floor_most_rooms.py
+Q016,"Are there any rooms without windows?",medium,boolean,./scripts/rooms_without_windows.py
+Q017,"What is the total length of all walls combined?",hard,float,./scripts/total_wall_length.py
+Q018,"How many different types of building elements are used?",medium,integer,./scripts/count_element_types.py
+Q019,"What is the building's footprint area?",hard,float,./scripts/building_footprint.py
+Q020,"Which room type appears most frequently?",medium,string,./scripts/most_common_room_type.py

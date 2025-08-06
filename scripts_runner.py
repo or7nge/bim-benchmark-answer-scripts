@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
 import importlib.util
+import time
 
 
 def run_benchmark_script(ifc_model_path, script_path):
@@ -46,44 +47,31 @@ def run_full_benchmark(ifc_model_path, csv_path):
     Returns:
         dict: Results for all questions {question_id: result}
     """
-    import time
+    # Read questions CSV
+    df = pd.read_csv(csv_path)
+    results = {}
 
-    try:
-        # Read questions CSV
-        df = pd.read_csv(csv_path)
-        results = {}
-        timings = {}
+    selected_indices = list(range(len(df)))
+    # selected_indices = list(range(10, 20))
+    for idx in selected_indices:
+        if idx >= len(df):
+            continue
+        row = df.iloc[idx]
+        question_id = row["question_id"]
+        script_path = row["script_path"]
 
-        selected_indices = list(range(len(df)))
-        for idx in selected_indices:
-            if idx >= len(df):
-                continue
-            row = df.iloc[idx]
-            question_id = row["question_id"]
-            script_path = row["script_path"]
+        start_time = time.time()
+        result = run_benchmark_script(ifc_model_path, script_path)
+        elapsed = time.time() - start_time
 
-            start_time = time.time()
-            result = run_benchmark_script(ifc_model_path, script_path)
-            elapsed = time.time() - start_time
-            timings[question_id] = elapsed
+        results[question_id] = {
+            "question": row["question_text"],
+            "result": result,
+            "difficulty": row["difficulty"],
+            "time": round(elapsed, 3),
+        }
 
-            results[question_id] = {
-                "question": row["question_text"],
-                "result": result,
-                "difficulty": row["difficulty"],
-                "category": row["category"],
-                "time": round(elapsed, 3),
-            }
-
-        print("Execution times (seconds):")
-        for qid, t in timings.items():
-            print(f"{qid}: {t:.3f}")
-        print(f"Total: {sum(timings.values()):.3f}")
-
-        return results
-
-    except Exception as e:
-        return f"Error: {str(e)}"
+    return results
 
 
 # Usage example
@@ -93,9 +81,8 @@ if __name__ == "__main__":
     csv_path = "questions.csv"
     results = run_full_benchmark(ifc_model_path, csv_path)
 
-    print("\n")
     for q_id, data in results.items():
-        print(f"{q_id}: {data['question']}\n{data['result']}\n")
+        print(f"{q_id}: {data['question']} - {data['time']}s\n{data['result']}\n")
 
     # Save results to CSV
     results_df = pd.DataFrame(
@@ -105,7 +92,6 @@ if __name__ == "__main__":
                 "question": data["question"],
                 "result": data["result"],
                 "difficulty": data["difficulty"],
-                "category": data["category"],
                 "model": ifc_model_path,
                 "time_seconds": data["time"],
             }
