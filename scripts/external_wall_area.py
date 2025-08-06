@@ -86,10 +86,3 @@ def external_wall_area(ifc_file_path):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
-# Usage:
-# path = "C:\\Users\\adgro\\Documents\\AIRI\\ifc_script_dataset\\models\\SampleHouse4.ifc"
-# print(external_wall_area(path))
-# debug_external_wall_step_by_step(path)
-# simple_all_walls_area(path)

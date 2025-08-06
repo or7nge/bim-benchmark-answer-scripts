@@ -52,7 +52,8 @@ def run_full_benchmark(ifc_model_path, csv_path):
     results = {}
 
     selected_indices = list(range(len(df)))
-    # selected_indices = list(range(10, 20))
+    # # selected_indices = list(range(10, 20))
+    # selected_indices = [14]
     for idx in selected_indices:
         if idx >= len(df):
             continue
