@@ -45,6 +45,10 @@ def floor_most_rooms(ifc_file_path):
         max_floor = max(room_count_per_floor, key=room_count_per_floor.get)
         max_count = room_count_per_floor[max_floor]
 
+        # Add some debug info
+        total_rooms_mapped = sum(room_count_per_floor.values())
+        return f"{max_floor} ({max_count} rooms)"
+
     except Exception as e:
         return f"Error: {str(e)}"
 
