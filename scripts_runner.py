@@ -21,7 +21,7 @@ def run_benchmark_script(ifc_model_path, script_path):
         spec.loader.exec_module(module)
 
         # Try to pass both the IFC path and script path to the function
-        function_name = script_path.stem
+        function_name = script_path.stem[4:]
         if hasattr(module, function_name):
             func = getattr(module, function_name)
             # Try calling with just IFC path, fallback to both args if needed
@@ -51,9 +51,9 @@ def run_full_benchmark(ifc_model_path, csv_path):
     df = pd.read_csv(csv_path)
     results = {}
 
-    selected_indices = list(range(len(df)))
-    # # selected_indices = list(range(10, 20))
-    # selected_indices = [14]
+    # selected_indices = list(range(len(df)))
+    selected_indices = list(range(20, 40))
+    # selected_indices = [21]
     for idx in selected_indices:
         if idx >= len(df):
             continue
@@ -77,8 +77,8 @@ def run_full_benchmark(ifc_model_path, csv_path):
 
 # Usage example
 if __name__ == "__main__":
-    ifc_model_path = "models/sample_house_big.ifc"
-    # ifc_model_path = "models/SampleHouse4.ifc"
+    # ifc_model_path = "models/sample_house_big.ifc"
+    ifc_model_path = "models/SampleHouse4.ifc"
     csv_path = "questions.csv"
     results = run_full_benchmark(ifc_model_path, csv_path)
 
