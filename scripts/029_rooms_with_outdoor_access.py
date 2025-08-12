@@ -1,62 +1,86 @@
 import ifcopenshell
-import ifcopenshell.util.element
+import ifcopenshell.geom
+import numpy as np
+from scipy.spatial import ConvexHull
+
+
+def verts_array(shape):
+    return np.array(shape.geometry.verts).reshape(-1, 3)
+
+
+def get_external_wall_points(model, settings):
+    points = []
+    for wall in model.by_type("IfcWall") + model.by_type("IfcWallStandardCase"):
+        try:
+            shape = ifcopenshell.geom.create_shape(settings, wall)
+            pts = verts_array(shape)
+            points.extend(pts)
+        except:
+            continue
+    return np.array(points)
+
+
+def get_door_candidates(model, settings):
+    candidates = []
+    for el in model.by_type("IfcDoor") + model.by_type("IfcBuildingElementProxy"):
+        try:
+            shape = ifcopenshell.geom.create_shape(settings, el)
+            center = verts_array(shape).mean(axis=0)
+            candidates.append((el, center))
+        except:
+            continue
+    return candidates
+
+
+def get_spaces_geom(model, settings):
+    spaces = {}
+    for sp in model.by_type("IfcSpace"):
+        try:
+            shape = ifcopenshell.geom.create_shape(settings, sp)
+            spaces[sp] = verts_array(shape).mean(axis=0)
+        except:
+            continue
+    return spaces
 
 
 def rooms_with_outdoor_access(ifc_file_path):
-    """Find which room types have direct access to outdoor spaces"""
-    try:
-        ifc_file = ifcopenshell.open(ifc_file_path)
-        spaces = ifc_file.by_type("IfcSpace")
-        doors = ifc_file.by_type("IfcDoor")
+    settings = ifcopenshell.geom.settings()
+    settings.set(settings.USE_WORLD_COORDS, True)
 
-        if not spaces:
-            return []
+    model = ifcopenshell.open(ifc_file_path)
 
-        outdoor_access_rooms = set()
+    # 1. Build "external envelope" from wall geometry
+    wall_points = get_external_wall_points(model, settings)
+    hull = ConvexHull(wall_points)
+    hull_pts = wall_points[hull.vertices]
+    hull_min = hull_pts.min(axis=0)
+    hull_max = hull_pts.max(axis=0)
+    tolerance = 0.05 * np.linalg.norm(hull_max - hull_min)  # 5% size
 
-        # Method 1: Find doors that lead outside
-        external_doors = []
-        for door in doors:
-            if _is_external_door(door):
-                external_doors.append(door)
+    # 2. Get spaces + door candidates
+    spaces_geom = get_spaces_geom(model, settings)
+    doors = get_door_candidates(model, settings)
 
-        # Find spaces connected to external doors
-        for door in external_doors:
-            connected_spaces = _find_spaces_connected_by_element(door, spaces)
-            for space in connected_spaces:
-                room_type = _get_room_type(space)
-                if room_type:
-                    outdoor_access_rooms.add(room_type)
+    # 3. Match doors to nearest space if door center is close to hull boundary
+    outdoor_rooms = set()
+    for door, d_center in doors:
+        close_to_edge = (
+            abs(d_center[0] - hull_min[0]) < tolerance
+            or abs(d_center[0] - hull_max[0]) < tolerance
+            or abs(d_center[1] - hull_min[1]) < tolerance
+            or abs(d_center[1] - hull_max[1]) < tolerance
+        )
+        if close_to_edge:
+            # Find nearest space
+            nearest_space = None
+            nearest_dist = np.inf
+            for sp, sp_center in spaces_geom.items():
+                dist = np.linalg.norm(d_center - sp_center)
+                if dist < nearest_dist:
+                    nearest_dist = dist
+                    nearest_space = sp
+            if nearest_space:
+                room_type = getattr(nearest_space, "LongName", None) or getattr(nearest_space, "Name", None) or "Unknown"
+                outdoor_rooms.add(room_type)
 
-        # Method 2: Find spaces with direct external wall access
-        for space in spaces:
-            if _has_external_wall_access(space):
-                room_type = _get_room_type(space)
-                if room_type:
-                    outdoor_access_rooms.add(room_type)
-
-        return sorted(list(outdoor_access_rooms)) if outdoor_access_rooms else ["No outdoor access found"]
-
-    except Exception as e:
-        return f"Error: {str(e)}"
-
-
-# Helper functions (stubs for workspace consistency)
-def _is_external_door(door):
-    # ...existing code...
-    pass
-
-
-def _find_spaces_connected_by_element(door, spaces):
-    # ...existing code...
-    return []
-
-
-def _get_room_type(space):
-    # ...existing code...
-    pass
-
-
-def _has_external_wall_access(space):
-    # ...existing code...
-    pass
+    return list(outdoor_rooms)

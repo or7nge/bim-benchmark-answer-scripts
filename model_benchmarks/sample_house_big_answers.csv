@@ -1,11 +1,2 @@
 question_id,question,result,difficulty,model,time_seconds
-Q021,What percentage of the building is glazed (window area vs total wall area)?,0.0,hard,models/sample_house_big.ifc,1.524
-Q022,Which rooms are directly connected to each other?,{'error': 'No valid space placement or geometry found in IFC. Room connections cannot be determined.'},hard,models/sample_house_big.ifc,1.324
-Q023,What is the average ceiling height in the building?,2900.0,medium,models/sample_house_big.ifc,1.286
-Q024,How many rooms have natural lighting (contain windows)?,0,medium,models/sample_house_big.ifc,4.258
-Q025,What is the total area of circulation spaces (corridors and hallways)?,0.0,hard,models/sample_house_big.ifc,1.211
-Q026,Which floor has the largest total area?,АР_-2.900_Подвал (0.0 sq units),medium,models/sample_house_big.ifc,1.502
-Q027,How many structural elements (beams + columns + load-bearing walls) are there?,18,medium,models/sample_house_big.ifc,1.36
-Q028,What is the building's aspect ratio (length to width)?,1.34,hard,models/sample_house_big.ifc,1.565
-Q029,Which room types have direct access to outdoor spaces?,Error: Script not found at scripts\rooms_with_outdoor_access.py,hard,models/sample_house_big.ifc,0.148
-Q030,What is the total perimeter length of the building?,Error: Script not found at scripts\building_perimeter.py,hard,models/sample_house_big.ifc,0.0
+Q029,Which room types have direct access to outdoor spaces?,"['Электрощитовая нежилой части', 'Жилая комната', 'Электрощитовая жилой части', 'Площадь', 'Помещение для прокладки инженерных коммуникаций', 'Торговый зал', 'Зона тамбура', 'Выход из подвала', 'Кухня-ниша', 'ИТП']",hard,models/sample_house_big.ifc,54.363

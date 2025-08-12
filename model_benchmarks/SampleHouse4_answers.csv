@@ -1,21 +1,2 @@
 question_id,question,result,difficulty,model,time_seconds
-Q021,What percentage of the building is glazed (window area vs total wall area)?,71.35,hard,models/SampleHouse4.ifc,0.302
-Q022,Which rooms are directly connected to each other?,{'error': 'No valid space placement or geometry found in IFC. Room connections cannot be determined.'},hard,models/SampleHouse4.ifc,0.138
-Q023,What is the average ceiling height in the building?,2125.0,medium,models/SampleHouse4.ifc,0.125
-Q024,How many rooms have natural lighting (contain windows)?,0,medium,models/SampleHouse4.ifc,0.124
-Q025,What is the total area of circulation spaces (corridors and hallways)?,8.69,hard,models/SampleHouse4.ifc,0.119
-Q026,Which floor has the largest total area?,Ground Floor (146.2 sq units),medium,models/SampleHouse4.ifc,0.12
-Q027,How many structural elements (beams + columns + load-bearing walls) are there?,0,medium,models/SampleHouse4.ifc,0.123
-Q028,What is the building's aspect ratio (length to width)?,2.32,hard,models/SampleHouse4.ifc,0.288
-Q029,Which room types have direct access to outdoor spaces?,['No outdoor access found'],hard,models/SampleHouse4.ifc,0.107
-Q030,What is the total perimeter length of the building?,Error: '>' not supported between instances of 'NoneType' and 'int',hard,models/SampleHouse4.ifc,0.113
-Q031,How many rooms are corner rooms (have walls on 2+ exterior sides)?,0,hard,models/SampleHouse4.ifc,0.117
-Q032,What is the ratio of service spaces to usable spaces?,Error: '<=' not supported between instances of 'NoneType' and 'int',hard,models/SampleHouse4.ifc,0.123
-Q033,Which direction has the most external wall area?,No external walls found,medium,models/SampleHouse4.ifc,0.121
-Q034,How many different ceiling heights exist in the building?,1,medium,models/SampleHouse4.ifc,0.12
-Q035,What is the total volume of enclosed spaces per floor?,{'message': 'No volumes calculated'},hard,models/SampleHouse4.ifc,0.119
-Q036,Which rooms share walls with the building exterior?,"['1 - Living room', '2 - Bedroom', '3 - Entrance hall', '4 - Roof']",medium,models/SampleHouse4.ifc,0.125
-Q037,What is the average room depth (shortest dimension)?,4.17,medium,models/SampleHouse4.ifc,0.125
-Q038,How many thermal zones or HVAC zones are there?,1,medium,models/SampleHouse4.ifc,0.12
-Q039,What percentage of floor area is dedicated to vertical circulation (stairs/elevators)?,12.0,hard,models/SampleHouse4.ifc,0.118
-Q040,Which structural bay has the largest area?,Insufficient structural elements to determine bays,hard,models/SampleHouse4.ifc,0.124
+Q029,Which room types have direct access to outdoor spaces?,['Entrance hall'],hard,models/SampleHouse4.ifc,2.985
