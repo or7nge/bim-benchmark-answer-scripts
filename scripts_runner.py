@@ -53,7 +53,7 @@ def run_full_benchmark(ifc_model_path, csv_path):
 
     # selected_indices = list(range(len(df)))
     # selected_indices = list(range(20, 40))
-    selected_indices = [28]
+    selected_indices = [30]
     for idx in selected_indices:
         if idx >= len(df):
             continue
@@ -77,8 +77,8 @@ def run_full_benchmark(ifc_model_path, csv_path):
 
 # Usage example
 if __name__ == "__main__":
-    ifc_model_path = "models/sample_house_big.ifc"
-    # ifc_model_path = "models/SampleHouse4.ifc"
+    # ifc_model_path = "models/sample_house_big.ifc"
+    ifc_model_path = "models/SampleHouse4.ifc"
     csv_path = "questions.csv"
     results = run_full_benchmark(ifc_model_path, csv_path)
 
