@@ -5,22 +5,19 @@ from scripts_runner import run_full_benchmark
 
 
 def main(models_folder):
+    # List all .ifc model files in the specified folder
+    model_files = [f for f in os.listdir(models_folder) if os.path.isfile(os.path.join(models_folder, f)) and f.lower().endswith(".ifc")]
+    print(f"Found {len(model_files)} IFC models: {model_files}")
 
-    # List all model files in the specified folder
-    model_files = [f for f in os.listdir(models_folder) if os.path.isfile(os.path.join(models_folder, f))]
-    total_models = len(model_files)
-    processed_count = 0
-
-    for filename in model_files:
-        model_path = os.path.join(models_folder, filename)
+    for model_id in range(len(model_files)):
+        model_path = os.path.join(models_folder, model_files[model_id])
         try:
             run_full_benchmark(model_path, "questions.csv")
         except Exception as e:
             print(f"Error occurred while running scripts_runner.py for model: {model_path}")
             print(f"Error details: {e}")
         finally:
-            processed_count += 1
-            print(f"Finished processing model: {model_path} ({processed_count}/{total_models})")
+            print(f"Finished processing model: {model_path} ({model_id + 1}/{len(model_files)})")
 
 
 # e.g. python run_all_models.py models
