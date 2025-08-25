@@ -2,77 +2,53 @@ import ifcopenshell
 
 
 def naturally_lit_rooms(ifc_file_path):
-    """Count rooms that have natural lighting (contain windows)"""
+    """Counts the number of rooms that have at least one window by checking space boundaries."""
     try:
         ifc_file = ifcopenshell.open(ifc_file_path)
-        spaces = ifc_file.by_type("IfcSpace")
-        windows = ifc_file.by_type("IfcWindow")
-
-        if not spaces:
-            return 0
-
-        lit_rooms = set()
-
-        # Method 1: Check which spaces contain windows
-        for window in windows:
-            containing_spaces = _find_containing_spaces(window, spaces)
-            lit_rooms.update(containing_spaces)
-
-        # Method 2: Check spaces that have external walls with openings
-        walls = ifc_file.by_type("IfcWall")
-        for wall in walls:
-            if _is_external_wall(wall):
-                # Check if wall has openings (potential windows)
-                if hasattr(wall, "HasOpenings"):
-                    for opening_rel in wall.HasOpenings:
-                        # Find spaces bounded by this wall
-                        for space in spaces:
-                            if _space_bounded_by_wall(space, wall):
-                                lit_rooms.add(space.id())
-
-        return len(lit_rooms)
-
     except Exception as e:
-        return f"Error: {str(e)}"
+        return f"Error opening IFC file: {e}"
 
+    lit_rooms = set()
 
-def _find_containing_spaces(element, spaces):
-    """Find spaces that contain a given element"""
-    containing_spaces = []
+    # IfcRelSpaceBoundary connects a space to its bounding elements.
+    # This is a more reliable way to find connections than inverse attributes.
+    space_boundaries = ifc_file.by_type("IfcRelSpaceBoundary")
 
-    for space in spaces:
-        if hasattr(space, "BoundedBy"):
-            for boundary in space.BoundedBy:
-                if hasattr(boundary, "RelatedBuildingElement"):
-                    if boundary.RelatedBuildingElement == element:
-                        containing_spaces.append(space.id())
+    for boundary in space_boundaries:
+        space = boundary.RelatingSpace
+        element = boundary.RelatedBuildingElement
+
+        # Ensure we have a valid space and element to check
+        if not space or not element or not space.is_a("IfcSpace"):
+            continue
+
+        # If the space is already identified as lit, skip to the next boundary
+        if space.GlobalId in lit_rooms:
+            continue
+
+        # Case 1: The boundary is a window itself.
+        if element.is_a("IfcWindow"):
+            lit_rooms.add(space.GlobalId)
+            continue
+
+        # Case 2: The boundary is a wall/curtain wall that might contain a window.
+        if element.is_a("IfcWall") or element.is_a("IfcWallStandardCase") or element.is_a("IfcCurtainWall"):
+            # Check if the wall has openings.
+            if not hasattr(element, "HasOpenings"):
+                continue
+
+            for rel_voids in element.HasOpenings:
+                opening = rel_voids.RelatedOpeningElement
+                if not opening or not hasattr(opening, "HasFillings"):
+                    continue
+
+                # Check if any filling in the opening is a window.
+                for rel_fills in opening.HasFillings:
+                    if rel_fills.RelatedBuildingElement and rel_fills.RelatedBuildingElement.is_a("IfcWindow"):
+                        lit_rooms.add(space.GlobalId)
+                        # Break loops once a window is found for this space boundary
                         break
+                if space.GlobalId in lit_rooms:
+                    break
 
-    return containing_spaces
-
-
-def _is_external_wall(wall):
-    """Check if a wall is external (simplified heuristic)"""
-    # Check if wall is defined as external
-    if hasattr(wall, "PredefinedType"):
-        if "EXTERNAL" in str(wall.PredefinedType):
-            return True
-
-    # Check property sets for external indication
-    psets = ifcopenshell.util.element.get_psets(wall)
-    for pset_data in psets.values():
-        is_external = pset_data.get("IsExternal") or pset_data.get("External")
-        if is_external:
-            return True
-
-    return False
-
-
-def _space_bounded_by_wall(space, wall):
-    """Check if a space is bounded by a specific wall"""
-    if hasattr(space, "BoundedBy"):
-        for boundary in space.BoundedBy:
-            if hasattr(boundary, "RelatedBuildingElement"):
-                if boundary.RelatedBuildingElement == wall:
-                    return True
-    return False
+    return len(lit_rooms)

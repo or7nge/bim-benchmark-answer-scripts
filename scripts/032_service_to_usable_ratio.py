@@ -1,5 +1,5 @@
 import ifcopenshell
-import ifcopenshell.util.element
+from scripts.ifc_utils import get_element_area
 
 
 def service_to_usable_ratio(ifc_file_path):
@@ -31,10 +31,11 @@ def service_to_usable_ratio(ifc_file_path):
             "stair",
             "restroom",
             "bathroom",
+            "roof",
         ]
 
         for space in spaces:
-            area = _get_space_area(space)
+            area = get_element_area(space)
             if area <= 0:
                 continue
 
@@ -65,9 +66,3 @@ def service_to_usable_ratio(ifc_file_path):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
-# Helper function stub
-def _get_space_area(space):
-    # ...existing code...
-    pass

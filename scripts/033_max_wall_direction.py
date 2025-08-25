@@ -1,6 +1,5 @@
 import ifcopenshell
-import ifcopenshell.util.placement
-import math
+from scripts.ifc_utils import is_external_wall, get_element_area, get_wall_direction
 
 
 def max_wall_direction(ifc_file_path):
@@ -9,7 +8,7 @@ def max_wall_direction(ifc_file_path):
         ifc_file = ifcopenshell.open(ifc_file_path)
         walls = ifc_file.by_type("IfcWall")
 
-        external_walls = [wall for wall in walls if _is_external_wall(wall)]
+        external_walls = [wall for wall in walls if is_external_wall(wall)]
 
         if not external_walls:
             return "No external walls found"
@@ -17,8 +16,8 @@ def max_wall_direction(ifc_file_path):
         direction_areas = {"North": 0.0, "South": 0.0, "East": 0.0, "West": 0.0}
 
         for wall in external_walls:
-            area = _get_element_area(wall)
-            direction = _get_wall_direction(wall)
+            area = get_element_area(wall)
+            direction = get_wall_direction(wall)
 
             if area > 0 and direction in direction_areas:
                 direction_areas[direction] += area
@@ -31,19 +30,3 @@ def max_wall_direction(ifc_file_path):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
-# Helper function stubs
-def _is_external_wall(wall):
-    # ...existing code...
-    pass
-
-
-def _get_element_area(element):
-    # ...existing code...
-    pass
-
-
-def _get_wall_direction(wall):
-    # ...existing code...
-    pass

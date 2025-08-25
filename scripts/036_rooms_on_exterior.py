@@ -1,5 +1,5 @@
 import ifcopenshell
-import ifcopenshell.util.element
+from scripts.ifc_utils import is_external_wall
 
 
 def rooms_on_exterior(ifc_file_path):
@@ -15,7 +15,7 @@ def rooms_on_exterior(ifc_file_path):
         # Get external walls
         external_walls = []
         for wall in walls:
-            if _is_external_wall(wall):
+            if is_external_wall(wall):
                 external_walls.append(wall)
 
         if not external_walls:
@@ -47,32 +47,6 @@ def rooms_on_exterior(ifc_file_path):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
-def _is_external_wall(wall):
-    """Check if a wall is external using multiple methods"""
-    # Method 1: Check PredefinedType
-    if hasattr(wall, "PredefinedType"):
-        predefined = str(wall.PredefinedType).upper()
-        if "EXTERNAL" in predefined or "EXTERIOR" in predefined:
-            return True
-
-    # Method 2: Check property sets
-    try:
-        psets = ifcopenshell.util.element.get_psets(wall)
-        for pset_data in psets.values():
-            is_external = pset_data.get("IsExternal") or pset_data.get("External")
-            if is_external:
-                return True
-    except Exception:
-        pass
-
-    # Method 3: Check by name patterns
-    wall_name = (wall.Name or "").lower()
-    if any(keyword in wall_name for keyword in ["external", "exterior", "facade", "curtain"]):
-        return True
-
-    return False
 
 
 def _check_space_wall_proximity(space, external_walls):

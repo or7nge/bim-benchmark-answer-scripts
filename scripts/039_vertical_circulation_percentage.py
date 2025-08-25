@@ -1,5 +1,5 @@
 import ifcopenshell
-import ifcopenshell.util.element
+from scripts.ifc_utils import get_element_area
 
 
 def vertical_circulation_percentage(ifc_file_path):
@@ -19,7 +19,7 @@ def vertical_circulation_percentage(ifc_file_path):
         vertical_keywords = ["stair", "elevator", "escalator", "lift", "vertical", "stairwell", "stairway", "staircase", "shaft"]
 
         for space in spaces:
-            space_area = _get_space_area(space)
+            space_area = get_element_area(space)
             if space_area > 0:
                 total_floor_area += space_area
 
@@ -35,7 +35,7 @@ def vertical_circulation_percentage(ifc_file_path):
 
         # Add areas from stair elements
         for stair in stairs:
-            stair_area = _get_element_area(stair)
+            stair_area = get_element_area(stair)
             if stair_area > 0:
                 vertical_circulation_area += stair_area
 
@@ -43,7 +43,7 @@ def vertical_circulation_percentage(ifc_file_path):
         for elevator in elevators:
             # Check if it's actually an elevator
             if _is_elevator(elevator):
-                elevator_area = _get_element_area(elevator)
+                elevator_area = get_element_area(elevator)
                 if elevator_area > 0:
                     vertical_circulation_area += elevator_area
 
@@ -97,40 +97,3 @@ def _is_elevator(transport_element):
         return True
 
     return False
-
-
-def _get_element_area(element):
-    """Get area of any IFC element"""
-    try:
-        # Method 1: Quantity sets
-        if hasattr(element, "IsDefinedBy"):
-            for rel in element.IsDefinedBy:
-                if rel.is_a("IfcRelDefinesByProperties"):
-                    if rel.RelatingPropertyDefinition.is_a("IfcElementQuantity"):
-                        for qty in rel.RelatingPropertyDefinition.Quantities:
-                            if qty.is_a("IfcQuantityArea"):
-                                return qty.AreaValue
-
-        # Method 2: Property sets
-        psets = ifcopenshell.util.element.get_psets(element)
-        for pset_data in psets.values():
-            area = pset_data.get("Area") or pset_data.get("FootprintArea")
-            if area:
-                return area
-    except Exception:
-        pass
-
-    return 0.0
-
-
-def _get_space_area(space):
-    """Get area of a space for estimation purposes"""
-    try:
-        psets = ifcopenshell.util.element.get_psets(space)
-        for pset_data in psets.values():
-            area = pset_data.get("FloorArea") or pset_data.get("Area")
-            if area:
-                return area
-    except Exception:
-        pass
-    return 0.0

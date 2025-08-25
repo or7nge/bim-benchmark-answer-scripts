@@ -2,6 +2,8 @@ import pandas as pd
 from pathlib import Path
 import importlib.util
 import time
+import multiprocessing
+import concurrent.futures
 
 
 def run_benchmark_script(ifc_model_path, script_path):
@@ -52,11 +54,12 @@ def run_full_benchmark(ifc_model_path, csv_path):
     results = {}
 
     selected_indices = list(range(len(df)))
-    # selected_indices = list(range(10))
-    # selected_indices = [30]
-    for idx in selected_indices:
+    # selected_indices = list(range(20))
+    # selected_indices = [34]
+
+    def process_question(idx):
         if idx >= len(df):
-            continue
+            return None
         row = df.iloc[idx]
         question_id = row["question_id"]
         script_path = row["script_path"]
@@ -65,12 +68,27 @@ def run_full_benchmark(ifc_model_path, csv_path):
         result = run_benchmark_script(ifc_model_path, script_path)
         elapsed = time.time() - start_time
 
-        results[question_id] = {
-            "question": row["question_text"],
-            "result": result,
-            "difficulty": row["difficulty"],
-            "time": round(elapsed, 3),
-        }
+        return (
+            question_id,
+            {
+                "question": row["question_text"],
+                "result": result,
+                "difficulty": row["difficulty"],
+                "time": round(elapsed, 3),
+            },
+        )
+
+    results = {}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=multiprocessing.cpu_count()) as executor:
+        future_to_idx = {executor.submit(process_question, idx): idx for idx in selected_indices}
+        for future in concurrent.futures.as_completed(future_to_idx):
+            res = future.result()
+            if res is not None:
+                q_id, data = res
+                results[q_id] = data
+
+    # Sort results by question_id key
+    results = dict(sorted(results.items(), key=lambda x: x[0]))
 
     results_df = pd.DataFrame(
         [

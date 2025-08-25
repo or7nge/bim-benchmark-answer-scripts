@@ -1,6 +1,5 @@
 import ifcopenshell
-import ifcopenshell.util.element
-import ifcopenshell.geom
+from scripts.ifc_utils import get_element_area
 
 
 def average_room_depth(ifc_file_path):
@@ -73,7 +72,7 @@ def _get_room_depth(space):
 
     # Method 4: Estimate from area and assume square room
     try:
-        area = _get_space_area(space)
+        area = get_element_area(space)
         if area > 0:
             # For square room, depth = sqrt(area)
             estimated_depth = area**0.5
@@ -116,17 +115,4 @@ def _calculate_depth_from_geometry(space):
     except Exception:
         pass
 
-    return 0.0
-
-
-def _get_space_area(space):
-    """Get area of a space for estimation purposes"""
-    try:
-        psets = ifcopenshell.util.element.get_psets(space)
-        for pset_data in psets.values():
-            area = pset_data.get("FloorArea") or pset_data.get("Area")
-            if area:
-                return area
-    except Exception:
-        pass
     return 0.0

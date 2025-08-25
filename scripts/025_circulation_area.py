@@ -1,5 +1,5 @@
 import ifcopenshell
-import ifcopenshell.util.element
+from scripts.ifc_utils import get_element_area
 
 
 def circulation_area(ifc_file_path):
@@ -47,7 +47,7 @@ def circulation_area(ifc_file_path):
                     is_circulation = True
 
             if is_circulation:
-                area = _get_space_area(space)
+                area = get_element_area(space)
                 if area > 0:
                     total_circulation_area += area
 
@@ -55,24 +55,3 @@ def circulation_area(ifc_file_path):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
-def _get_space_area(space):
-    """Get area of a space using multiple methods"""
-    # Try quantity sets
-    if hasattr(space, "IsDefinedBy"):
-        for rel in space.IsDefinedBy:
-            if rel.is_a("IfcRelDefinesByProperties"):
-                if rel.RelatingPropertyDefinition.is_a("IfcElementQuantity"):
-                    for qty in rel.RelatingPropertyDefinition.Quantities:
-                        if qty.is_a("IfcQuantityArea"):
-                            return qty.AreaValue
-
-    # Try property sets
-    psets = ifcopenshell.util.element.get_psets(space)
-    for pset_data in psets.values():
-        area = pset_data.get("FloorArea") or pset_data.get("Area") or pset_data.get("NetFloorArea")
-        if area:
-            return area
-
-    return 0.0

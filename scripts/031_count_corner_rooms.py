@@ -1,6 +1,5 @@
 import ifcopenshell
-import ifcopenshell.util.placement
-import ifcopenshell.util.element
+from scripts.ifc_utils import is_external_wall
 
 
 def count_corner_rooms(ifc_file_path):
@@ -13,7 +12,7 @@ def count_corner_rooms(ifc_file_path):
         if not spaces:
             return 0
 
-        external_walls = [wall for wall in walls if _is_external_wall(wall)]
+        external_walls = [wall for wall in walls if is_external_wall(wall)]
         corner_rooms = 0
 
         for space in spaces:
@@ -49,34 +48,3 @@ def count_corner_rooms(ifc_file_path):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
-# Helper function stub
-def _is_external_wall(wall):
-    """Check if a wall is external (simplified heuristic)"""
-    # Same external wall detection logic
-    psets = ifcopenshell.util.element.get_psets(wall)
-    is_external = False
-
-    # Check IsExternal property
-    for pset_data in psets.values():
-        if "IsExternal" in pset_data and pset_data["IsExternal"]:
-            is_external = True
-            break
-
-    # Check name for external keywords
-    if not is_external and hasattr(wall, "Name") and wall.Name:
-        external_keywords = ["наружн", "внешн", "external", "exterior", "фасад", "outer"]
-        is_external = any(keyword in wall.Name.lower() for keyword in external_keywords)
-
-    # Check wall type
-    if not is_external and hasattr(wall, "IsDefinedBy"):
-        for definition in wall.IsDefinedBy:
-            if definition.is_a("IfcRelDefinesByType"):
-                wall_type = definition.RelatingType
-                if wall_type and hasattr(wall_type, "Name") and wall_type.Name:
-                    external_keywords = ["наружн", "внешн", "external", "exterior", "фасад"]
-                    is_external = any(keyword in wall_type.Name.lower() for keyword in external_keywords)
-                    break
-
-    return is_external

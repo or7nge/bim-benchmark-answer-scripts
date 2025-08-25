@@ -1,5 +1,5 @@
 import ifcopenshell
-import ifcopenshell.util.element
+from scripts.ifc_utils import get_space_height
 
 
 def average_ceiling_height(ifc_file_path):
@@ -15,7 +15,7 @@ def average_ceiling_height(ifc_file_path):
         valid_spaces = 0
 
         for space in spaces:
-            height = _get_space_height(space)
+            height = get_space_height(space)
             if height and height > 0:
                 total_height += height
                 valid_spaces += 1
@@ -37,24 +37,3 @@ def average_ceiling_height(ifc_file_path):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
-def _get_space_height(space):
-    """Get height of a space using multiple methods"""
-    # Method 1: From quantity sets
-    if hasattr(space, "IsDefinedBy"):
-        for rel in space.IsDefinedBy:
-            if rel.is_a("IfcRelDefinesByProperties"):
-                if rel.RelatingPropertyDefinition.is_a("IfcElementQuantity"):
-                    for qty in rel.RelatingPropertyDefinition.Quantities:
-                        if qty.is_a("IfcQuantityLength") and "height" in qty.Name.lower():
-                            return qty.LengthValue
-
-    # Method 2: From property sets
-    psets = ifcopenshell.util.element.get_psets(space)
-    for pset_data in psets.values():
-        height = pset_data.get("Height") or pset_data.get("CeilingHeight") or pset_data.get("NetHeight")
-        if height:
-            return height
-
-    return None

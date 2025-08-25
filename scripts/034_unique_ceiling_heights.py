@@ -1,5 +1,5 @@
 import ifcopenshell
-import ifcopenshell.util.element
+from scripts.ifc_utils import get_space_height
 
 
 def unique_ceiling_heights(ifc_file_path):
@@ -14,7 +14,7 @@ def unique_ceiling_heights(ifc_file_path):
         heights = set()
 
         for space in spaces:
-            height = _get_space_height(space)
+            height = get_space_height(space)
             if height and height > 0:
                 # Round to nearest 0.1 to group similar heights
                 rounded_height = round(height, 1)
@@ -35,9 +35,3 @@ def unique_ceiling_heights(ifc_file_path):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
-
-# Helper function stub
-def _get_space_height(space):
-    # ...existing code...
-    pass
