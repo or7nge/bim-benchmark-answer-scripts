@@ -27,7 +27,6 @@ def external_wall_area(ifc_file_path):
                         if key in pset_data and pset_data[key] is not None:
                             try:
                                 wall_area = float(pset_data[key])
-                                print(wall_area)
                                 if wall_area > 0:
                                     break
                             except:
