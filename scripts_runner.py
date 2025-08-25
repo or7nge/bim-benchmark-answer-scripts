@@ -72,7 +72,7 @@ def run_full_benchmark(ifc_model_path, csv_path):
             "time": round(elapsed, 3),
         }
 
-    results = pd.DataFrame(
+    results_df = pd.DataFrame(
         [
             {
                 "question_id": q_id,

@@ -1,8 +1,16 @@
 # Ignore all .ifc models (safety reasons)
 models/*
-!models/
-models/.gitkeep
+!models/.gitkeep
+
+# Ignore all files in model_benchmarks
+model_benchmarks/
+
+# Ignore all .ipynb_checkpoints directories
+.ipynb_checkpoints/
 
 # Ignore all __pycache__
 __pycache__/
 **/__pycache__/
+
+.vscode/
+
