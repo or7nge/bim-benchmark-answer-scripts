@@ -1,5 +1,6 @@
 import ifcopenshell
 import ifcopenshell.util.placement
+import ifcopenshell.util.element
 
 
 def count_corner_rooms(ifc_file_path):
@@ -53,22 +54,29 @@ def count_corner_rooms(ifc_file_path):
 # Helper function stub
 def _is_external_wall(wall):
     """Check if a wall is external (simplified heuristic)"""
-    # Check if wall is defined as external
-    if hasattr(wall, "PredefinedType"):
-        if "EXTERNAL" in str(wall.PredefinedType):
-            return True
-    # Check property sets for external indication (manual walk)
-    try:
-        for rel in getattr(wall, "IsDefinedBy", []):
-            prop_set = getattr(rel, "RelatingPropertyDefinition", None)
-            if prop_set and hasattr(prop_set, "HasProperties"):
-                for prop in prop_set.HasProperties:
-                    if prop.Name.lower() == "isexternal" and hasattr(prop, "NominalValue"):
-                        if str(prop.NominalValue.wrappedValue).lower() == "true":
-                            return True
-    except Exception:
-        pass
-    # Fallback: check for 'external' in name/description
-    if "external" in (getattr(wall, "Name", "") or "").lower() or "external" in (getattr(wall, "Description", "") or "").lower():
-        return True
-    return False
+    # Same external wall detection logic
+    psets = ifcopenshell.util.element.get_psets(wall)
+    is_external = False
+
+    # Check IsExternal property
+    for pset_data in psets.values():
+        if "IsExternal" in pset_data and pset_data["IsExternal"]:
+            is_external = True
+            break
+
+    # Check name for external keywords
+    if not is_external and hasattr(wall, "Name") and wall.Name:
+        external_keywords = ["наружн", "внешн", "external", "exterior", "фасад", "outer"]
+        is_external = any(keyword in wall.Name.lower() for keyword in external_keywords)
+
+    # Check wall type
+    if not is_external and hasattr(wall, "IsDefinedBy"):
+        for definition in wall.IsDefinedBy:
+            if definition.is_a("IfcRelDefinesByType"):
+                wall_type = definition.RelatingType
+                if wall_type and hasattr(wall_type, "Name") and wall_type.Name:
+                    external_keywords = ["наружн", "внешн", "external", "exterior", "фасад"]
+                    is_external = any(keyword in wall_type.Name.lower() for keyword in external_keywords)
+                    break
+
+    return is_external

@@ -1,2 +1,2 @@
 question_id,question,result,difficulty,model,time_seconds
-Q031,How many rooms are corner rooms (have walls on 2+ exterior sides)?,0,hard,models/sample_house_big.ifc,1.33
+Q031,How many rooms are corner rooms (have walls on 2+ exterior sides)?,0,hard,models/sample_house_big.ifc,2.202
