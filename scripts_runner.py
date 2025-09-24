@@ -111,10 +111,10 @@ def run_full_benchmark(ifc_model_path, csv_path, question_ids=None):
 
 # Usage example
 if __name__ == "__main__":
-    # ifc_model_path = "models/big_house.ifc"
-    ifc_model_path = "models/V_21.ifc"
+    ifc_model_path = "models/big_house.ifc"
+    # ifc_model_path = "models/LargeBuilding.ifc"
     csv_path = "questions.csv"
-    question_ids = [17]
+    question_ids = None
     results = run_full_benchmark(ifc_model_path, csv_path, question_ids)
 
     print()

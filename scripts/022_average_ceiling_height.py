@@ -1,5 +1,6 @@
 import ifcopenshell
-from scripts.ifc_utils import get_space_height
+
+from scripts.ifc_utils import get_length_scale, get_space_height
 
 
 def average_ceiling_height(ifc_file_path):
@@ -15,22 +16,26 @@ def average_ceiling_height(ifc_file_path):
         valid_spaces = 0
 
         for space in spaces:
-            height = get_space_height(space)
+            try:
+                height = get_space_height(space)
+            except Exception:
+                continue
             if height and height > 0:
                 total_height += height
                 valid_spaces += 1
 
         if valid_spaces == 0:
             # Fallback: use storey heights
-            storeys = ifc_file.by_type("IfcBuildingStorey")
+            storeys = [s for s in ifc_file.by_type("IfcBuildingStorey") if s.Elevation is not None]
             if len(storeys) >= 2:
-                elevations = [s.Elevation for s in storeys if s.Elevation is not None]
-                if len(elevations) >= 2:
-                    elevations.sort()
-                    typical_height = elevations[1] - elevations[0]
-                    return round(typical_height, 2)
+                length_scale = get_length_scale(ifc_file=ifc_file)
+                elevations = sorted(float(s.Elevation) * length_scale for s in storeys)
+                diffs = [elevations[i + 1] - elevations[i] for i in range(len(elevations) - 1)]
+                positive_diffs = [d for d in diffs if d > 0]
+                if positive_diffs:
+                    return round(sum(positive_diffs) / len(positive_diffs), 2)
 
-            return 3.0  # Default assumption
+            return 0.0
 
         average = total_height / valid_spaces
         return round(average, 2)

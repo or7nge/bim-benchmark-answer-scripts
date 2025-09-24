@@ -1,5 +1,7 @@
 import ifcopenshell
 
+from scripts.ifc_utils import map_elements_to_spaces
+
 
 def rooms_without_windows(ifc_file_path):
     """Check if there are any rooms without windows"""
@@ -14,17 +16,20 @@ def rooms_without_windows(ifc_file_path):
         if not windows:
             return True  # No windows means all rooms are without windows
 
-        # Get spaces that contain windows
-        spaces_with_windows = set()
+        element_map = map_elements_to_spaces(
+            ifc_file,
+            windows,
+            tolerance_horizontal=0.75,
+            tolerance_vertical=1.5,
+            max_matches=1,
+        )
 
-        for window in windows:
-            # Check if window is contained in any space
-            if hasattr(window, "ContainedInStructure"):
-                for rel in window.ContainedInStructure:
-                    if rel.RelatingStructure.is_a("IfcSpace"):
-                        spaces_with_windows.add(rel.RelatingStructure.id())
+        spaces_with_windows = {space.id() for matches in element_map.values() for space in matches}
 
-        # Check if any space doesn't have windows
+        # If heuristic mapping failed completely, assume windows exist but could not be matched
+        if not spaces_with_windows and windows:
+            return True
+
         for space in spaces:
             if space.id() not in spaces_with_windows:
                 return True

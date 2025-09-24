@@ -1,6 +1,8 @@
 import ifcopenshell
 import ifcopenshell.util.placement
 
+from scripts.ifc_utils import get_length_scale
+
 
 def floor_most_rooms(ifc_file_path):
     """Find which floor has the most rooms using multiple relationship methods"""
@@ -116,12 +118,13 @@ def _count_rooms_method4(spaces, storeys, room_count_per_floor):
     found_any = False
 
     try:
+        length_scale = get_length_scale(storeys[0]) if storeys else 1.0
         # Sort storeys by elevation
         storeys_by_elevation = []
         for storey in storeys:
             elevation = storey.Elevation if storey.Elevation is not None else 0.0
             storey_name = storey.Name or f"Floor_{storey.id()}"
-            storeys_by_elevation.append((elevation, storey_name, storey))
+            storeys_by_elevation.append((float(elevation) * length_scale, storey_name, storey))
 
         storeys_by_elevation.sort(key=lambda x: x[0])
 
@@ -133,7 +136,7 @@ def _count_rooms_method4(spaces, storeys, room_count_per_floor):
             if hasattr(space, "ObjectPlacement") and space.ObjectPlacement:
                 try:
                     matrix = ifcopenshell.util.placement.get_local_placement(space.ObjectPlacement)
-                    space_elevation = matrix[3][2]  # Z coordinate
+                    space_elevation = matrix[3][2] * length_scale  # Z coordinate
                 except Exception:
                     pass
 

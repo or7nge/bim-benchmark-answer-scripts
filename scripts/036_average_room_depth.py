@@ -1,5 +1,8 @@
 import ifcopenshell
-from scripts.ifc_utils import get_element_area
+import ifcopenshell.geom
+import ifcopenshell.util.element
+
+from scripts.ifc_utils import get_element_area, get_length_scale
 
 
 def average_room_depth(ifc_file_path):
@@ -35,6 +38,8 @@ def _get_room_depth(space):
 
     # Method 1: From quantity sets (look for Width/Depth/Length properties)
     dimensions = []
+    length_scale = get_length_scale(space)
+
     if hasattr(space, "IsDefinedBy"):
         for rel in space.IsDefinedBy:
             if rel.is_a("IfcRelDefinesByProperties"):
@@ -43,7 +48,8 @@ def _get_room_depth(space):
                         if qty.is_a("IfcQuantityLength"):
                             qty_name = qty.Name.lower()
                             if any(keyword in qty_name for keyword in ["width", "depth", "length"]):
-                                dimensions.append(qty.LengthValue)
+                                if getattr(qty, "LengthValue", None):
+                                    dimensions.append(float(qty.LengthValue) * length_scale)
 
     if len(dimensions) >= 2:
         return min(dimensions)  # Return shortest dimension
@@ -56,7 +62,13 @@ def _get_room_depth(space):
             depth = pset_data.get("Depth") or pset_data.get("RoomDepth")
             length = pset_data.get("Length") or pset_data.get("RoomLength")
 
-            room_dims = [d for d in [width, depth, length] if d and d > 0]
+            room_dims = []
+            for value in [width, depth, length]:
+                try:
+                    if value and float(value) > 0:
+                        room_dims.append(float(value) * length_scale)
+                except (TypeError, ValueError):
+                    continue
             if len(room_dims) >= 2:
                 return min(room_dims)
     except Exception:
@@ -99,7 +111,7 @@ def _calculate_depth_from_geometry(space):
                     # Extract X,Y coordinates
                     points = []
                     for i in range(0, len(verts), 3):
-                        points.append((verts[i], verts[i + 1]))
+                        points.append((verts[i] * length_scale, verts[i + 1] * length_scale))
 
                     if len(points) >= 4:
                         # Calculate bounding box dimensions

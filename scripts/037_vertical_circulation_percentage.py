@@ -6,7 +6,7 @@ def vertical_circulation_percentage(ifc_file_path):
     """Calculate percentage of floor area dedicated to vertical circulation"""
     try:
         ifc_file = ifcopenshell.open(ifc_file_path)
-        spaces = ifc_file.by_type("IfcSpace")
+        spaces = list(ifc_file.by_type("IfcSpace"))
 
         if not spaces:
             return 0.0
@@ -19,41 +19,17 @@ def vertical_circulation_percentage(ifc_file_path):
         vertical_keywords = ["stair", "elevator", "escalator", "lift", "vertical", "stairwell", "stairway", "staircase", "shaft"]
 
         for space in spaces:
-            space_area = get_element_area(space)
-            if space_area > 0:
-                total_floor_area += space_area
+            try:
+                space_area = get_element_area(space)
+            except Exception:
+                continue
+            if not space_area or space_area <= 0:
+                continue
 
-                # Check if this is a vertical circulation space
-                is_vertical_circulation = _is_vertical_circulation_space(space, vertical_keywords)
+            total_floor_area += space_area
 
-                if is_vertical_circulation:
-                    vertical_circulation_area += space_area
-
-        # Method 2: Also check for stair and elevator elements directly
-        stairs = ifc_file.by_type("IfcStair")
-        elevators = ifc_file.by_type("IfcTransportElement")  # Often used for elevators
-
-        # Add areas from stair elements
-        for stair in stairs:
-            stair_area = get_element_area(stair)
-            if stair_area > 0:
-                vertical_circulation_area += stair_area
-
-        # Add areas from elevator elements
-        for elevator in elevators:
-            # Check if it's actually an elevator
-            if _is_elevator(elevator):
-                elevator_area = get_element_area(elevator)
-                if elevator_area > 0:
-                    vertical_circulation_area += elevator_area
-
-        # Method 3: If no direct elements found, estimate from building type
-        if vertical_circulation_area == 0 and total_floor_area > 0:
-            storeys = ifc_file.by_type("IfcBuildingStorey")
-            if len(storeys) > 1:  # Multi-story building
-                # Typical vertical circulation is 10-15% for multi-story buildings
-                estimated_circulation = total_floor_area * 0.12  # 12% estimate
-                vertical_circulation_area = estimated_circulation
+            if _is_vertical_circulation_space(space, vertical_keywords):
+                vertical_circulation_area += space_area
 
         if total_floor_area == 0:
             return 0.0
@@ -79,21 +55,5 @@ def _is_vertical_circulation_space(space, vertical_keywords):
         predefined = str(space.PredefinedType).lower()
         if any(keyword in predefined for keyword in vertical_keywords):
             return True
-
-    return False
-
-
-def _is_elevator(transport_element):
-    """Check if transport element is an elevator"""
-    # Check predefined type
-    if hasattr(transport_element, "PredefinedType"):
-        predefined = str(transport_element.PredefinedType).upper()
-        if "ELEVATOR" in predefined or "LIFT" in predefined:
-            return True
-
-    # Check name
-    name = (transport_element.Name or "").lower()
-    if "elevator" in name or "lift" in name:
-        return True
 
     return False

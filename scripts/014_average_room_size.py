@@ -15,8 +15,11 @@ def average_room_size(ifc_file_path):
         valid_spaces = 0
 
         for space in spaces:
-            area = get_element_area(space)
-            if area > 0:
+            try:
+                area = get_element_area(space)
+            except Exception:
+                continue
+            if area and area > 0:
                 total_area += area
                 valid_spaces += 1
 
