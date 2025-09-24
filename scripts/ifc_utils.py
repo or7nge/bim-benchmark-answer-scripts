@@ -49,7 +49,7 @@ def get_property_value(element, property_names):
     return 0.0
 
 
-def get_element_area(element, settings=None):
+def get_element_area(element):
     """Get area of any IFC element using multiple methods."""
     # Method 1: Quantity sets
     if hasattr(element, "IsDefinedBy"):
@@ -80,15 +80,14 @@ def get_element_area(element, settings=None):
         return width * height
 
     # Method 4: Geometric calculation from representation
-    if settings:
-        return get_element_area_from_geometry(element, settings)
-
-    return 0.0
+    return get_element_area_from_geometry(element)
 
 
-def get_element_area_from_geometry(element, settings):
+def get_element_area_from_geometry(element):
     """Calculate the area of an element from its geometry as a fallback."""
     area = 0.0
+    settings = ifcopenshell.geom.settings()
+    settings.set(settings.USE_WORLD_COORDS, True)
     if hasattr(element, "Representation") and element.Representation:
         try:
             shape = ifcopenshell.geom.create_shape(settings, element)
@@ -113,7 +112,7 @@ def get_element_area_from_geometry(element, settings):
     return area
 
 
-def get_space_volume(space, settings=None):
+def get_space_volume(space):
     """Get volume of a space using multiple methods."""
     # Method 1: Quantity sets
     if hasattr(space, "IsDefinedBy"):
@@ -132,15 +131,16 @@ def get_space_volume(space, settings=None):
             return volume
 
     # Method 3: Geometric calculation from representation
-    if settings:
-        return get_space_volume_from_geometry(space, settings)
+    return get_space_volume_from_geometry(space)
 
     return 0.0
 
 
-def get_space_volume_from_geometry(space, settings):
+def get_space_volume_from_geometry(space):
     """Calculate the volume of a space from its geometry."""
     volume = 0.0
+    settings = ifcopenshell.geom.settings()
+    settings.set(settings.USE_WORLD_COORDS, True)
     if hasattr(space, "Representation") and space.Representation:
         try:
             shape = ifcopenshell.geom.create_shape(settings, space)

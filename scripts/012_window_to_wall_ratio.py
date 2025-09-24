@@ -12,14 +12,11 @@ def window_to_wall_ratio(ifc_file_path):
         total_window_area = 0.0
         total_wall_area = 0.0
 
-        settings = ifcopenshell.geom.settings()
-        settings.set(settings.USE_WORLD_COORDS, True)
-
         for window in windows:
-            total_window_area += get_element_area(window, settings)
+            total_window_area += get_element_area(window)
 
         for wall in walls:
-            total_wall_area += get_element_area(wall, settings)
+            total_wall_area += get_element_area(wall)
 
         if total_wall_area == 0:
             return 0.0

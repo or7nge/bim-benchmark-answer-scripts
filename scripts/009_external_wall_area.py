@@ -8,15 +8,12 @@ def external_wall_area(ifc_file_path):
         walls = [w for w in ifc_file.by_type("IfcWall") if hasattr(w, "is_a")]
         total_external_area = 0.0
 
-        settings = ifcopenshell.geom.settings()
-        settings.set(settings.USE_WORLD_COORDS, True)
-
         for wall in walls:
             try:
                 if not is_external_wall(wall):
                     continue
 
-                wall_area = get_element_area(wall, settings)
+                wall_area = get_element_area(wall)
                 total_external_area += wall_area
 
             except Exception as e:

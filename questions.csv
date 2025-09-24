@@ -1,41 +1,38 @@
 question_id,question_text,difficulty,expected_output_type,script_path
-Q001,"How many walls are there in the building?",easy,integer,./scripts/001_count_walls.py
-Q002,"How many doors are there in the building?",easy,integer,./scripts/002_count_doors.py
-Q003,"What are the names of all floors/storeys in the building?",easy,list,./scripts/003_list_storeys.py
-Q004,"What is the total floor area of all spaces?",medium,float,./scripts/004_total_floor_area.py
-Q005,"What is the total height of the building?",medium,float,./scripts/005_building_height.py
-Q006,"What materials are used in the walls?",medium,list,./scripts/006_wall_materials.py
-Q007,"What is the name and area of the largest space?",medium,dict,./scripts/007_largest_space.py
-Q008,"How many doors are there on each floor?",hard,dict,./scripts/008_doors_per_floor.py
-Q009,"What is the total area of external walls?",hard,float,./scripts/009_external_wall_area.py
-Q010,"What is the total volume of all enclosed spaces?",hard,float,./scripts/010_total_space_volume.py
-Q011,"Which direction do most windows face?",medium,string,./scripts/011_window_orientation.py
-Q012,"What is the ratio of window area to wall area?",hard,float,./scripts/012_window_to_wall_ratio.py
-Q013,"How many structural columns are there?",easy,integer,./scripts/013_count_columns.py
-Q014,"What is the average room size in the building?",medium,float,./scripts/014_average_room_size.py
-Q015,"Which floor has the most rooms?",medium,string,./scripts/015_floor_most_rooms.py
-Q016,"Are there any rooms without windows?",medium,boolean,./scripts/016_rooms_without_windows.py
-Q017,"What is the total length of all walls combined?",hard,float,./scripts/017_total_wall_length.py
-Q018,"How many different types of building elements are used?",medium,integer,./scripts/018_count_element_types.py
-Q019,"What is the building's footprint area?",hard,float,./scripts/019_building_footprint.py
-Q020,"Which room type appears most frequently?",medium,string,./scripts/020_most_common_room_type.py
-Q021,"What percentage of the building is glazed (window area vs total wall area)?",hard,float,./scripts/021_glazing_percentage.py
-Q022,"Which rooms are directly connected to each other?",hard,dict,./scripts/022_connected_rooms.py
-Q023,"What is the average ceiling height in the building?",medium,float,./scripts/023_average_ceiling_height.py
-Q024,"How many rooms have natural lighting (contain windows)?",medium,integer,./scripts/024_naturally_lit_rooms.py
-Q025,"What is the total area of circulation spaces (corridors and hallways)?",hard,float,./scripts/025_circulation_area.py
-Q026,"Which floor has the largest total area?",medium,string,./scripts/026_largest_floor_area.py
-Q027,"How many structural elements (beams + columns + load-bearing walls) are there?",medium,integer,./scripts/027_count_structural_elements.py
-Q028,"What is the building's aspect ratio (length to width)?",hard,float,./scripts/028_building_aspect_ratio.py
-Q029,"Which room types have direct access to outdoor spaces?",hard,list,./scripts/029_rooms_with_outdoor_access.py
-Q030,"What is the total perimeter length of the building?",hard,float,./scripts/030_building_perimeter.py
-Q031,"How many rooms are corner rooms (have walls on 2+ exterior sides)?",hard,integer,./scripts/031_count_corner_rooms.py
-Q032,"What is the ratio of service spaces to usable spaces?",hard,float,./scripts/032_service_to_usable_ratio.py
-Q033,"Which direction has the most external wall area?",medium,string,./scripts/033_max_wall_direction.py
-Q034,"How many different ceiling heights exist in the building?",medium,integer,./scripts/034_unique_ceiling_heights.py
-Q035,"What is the total volume of enclosed spaces per floor?",hard,dict,./scripts/035_volume_per_floor.py
-Q036,"Which rooms share walls with the building exterior?",medium,list,./scripts/036_rooms_on_exterior.py
-Q037,"What is the average room depth (shortest dimension)?",medium,float,./scripts/037_average_room_depth.py
-Q038,"How many thermal zones or HVAC zones are there?",medium,integer,./scripts/038_count_hvac_zones.py
-Q039,"What percentage of floor area is dedicated to vertical circulation (stairs/elevators)?",hard,float,./scripts/039_vertical_circulation_percentage.py
-Q040,"Which structural bay has the largest area?",hard,string,./scripts/040_largest_structural_bay.py
+Q001,How many walls are there in the building?,easy,integer,scripts/001_count_walls.py
+Q002,How many doors are there in the building?,easy,integer,scripts/002_count_doors.py
+Q003,What are the names of all floors/storeys in the building?,easy,list,scripts/003_list_storeys.py
+Q004,What is the total floor area of all spaces?,medium,float,scripts/004_total_floor_area.py
+Q005,What is the total height of the building?,medium,float,scripts/005_building_height.py
+Q006,What materials are used in the walls?,medium,list,scripts/006_wall_materials.py
+Q007,What is the name and area of the largest space?,medium,dict,scripts/007_largest_space.py
+Q008,How many doors are there on each floor?,hard,dict,scripts/008_doors_per_floor.py
+Q009,What is the total area of external walls?,hard,float,scripts/009_external_wall_area.py
+Q010,What is the total volume of all enclosed spaces?,hard,float,scripts/010_total_space_volume.py
+Q011,Which direction do most windows face?,medium,string,scripts/011_window_orientation.py
+Q012,What is the ratio of window area to wall area?,hard,float,scripts/012_window_to_wall_ratio.py
+Q013,How many structural columns are there?,easy,integer,scripts/013_count_columns.py
+Q014,What is the average room size in the building?,medium,float,scripts/014_average_room_size.py
+Q015,Which floor has the most rooms?,medium,string,scripts/015_floor_most_rooms.py
+Q016,Are there any rooms without windows?,medium,boolean,scripts/016_rooms_without_windows.py
+Q017,What is the total length of all walls combined?,hard,float,scripts/017_total_wall_length.py
+Q018,How many different types of building elements are used?,medium,integer,scripts/018_count_element_types.py
+Q019,What is the building's footprint area?,hard,float,scripts/019_building_footprint.py
+Q020,Which room type appears most frequently?,medium,string,scripts/020_most_common_room_type.py
+Q021,Which rooms are directly connected to each other?,hard,dict,scripts/021_connected_rooms.py
+Q022,What is the average ceiling height in the building?,medium,float,scripts/022_average_ceiling_height.py
+Q023,How many rooms have natural lighting (contain windows)?,medium,integer,scripts/023_naturally_lit_rooms.py
+Q024,What is the total area of circulation spaces (corridors and hallways)?,hard,float,scripts/024_circulation_area.py
+Q025,Which floor has the largest total area?,medium,string,scripts/025_largest_floor_area.py
+Q026,How many structural elements (beams + columns + load-bearing walls) are there?,medium,integer,scripts/026_count_structural_elements.py
+Q027,What is the building's aspect ratio (length to width)?,hard,float,scripts/027_building_aspect_ratio.py
+Q028,Which room types have direct access to outdoor spaces?,hard,list,scripts/028_rooms_with_outdoor_access.py
+Q029,What is the total perimeter length of the building?,hard,float,scripts/029_building_perimeter.py
+Q030,How many rooms are corner rooms (have walls on 2+ exterior sides)?,hard,integer,scripts/030_count_corner_rooms.py
+Q031,What is the ratio of service spaces to usable spaces?,hard,float,scripts/031_service_to_usable_ratio.py
+Q032,Which direction has the most external wall area?,medium,string,scripts/032_max_wall_direction.py
+Q033,How many different ceiling heights exist in the building?,medium,integer,scripts/033_unique_ceiling_heights.py
+Q034,What is the total volume of enclosed spaces per floor?,hard,dict,scripts/034_volume_per_floor.py
+Q035,Which rooms share walls with the building exterior?,medium,list,scripts/035_rooms_on_exterior.py
+Q036,What is the average room depth (shortest dimension)?,medium,float,scripts/036_average_room_depth.py
+Q037,What percentage of floor area is dedicated to vertical circulation (stairs/elevators)?,hard,float,scripts/037_vertical_circulation_percentage.py

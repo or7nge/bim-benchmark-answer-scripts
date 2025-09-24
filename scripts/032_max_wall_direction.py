@@ -15,10 +15,13 @@ def max_wall_direction(ifc_file_path):
 
         direction_areas = {"North": 0.0, "South": 0.0, "East": 0.0, "West": 0.0}
 
+        skipped = 0
         for wall in external_walls:
             area = get_element_area(wall)
             direction = get_wall_direction(wall)
-
+            if direction is None:
+                skipped += 1
+                continue
             if area > 0 and direction in direction_areas:
                 direction_areas[direction] += area
 

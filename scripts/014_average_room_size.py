@@ -14,11 +14,8 @@ def average_room_size(ifc_file_path):
         total_area = 0.0
         valid_spaces = 0
 
-        settings = ifcopenshell.geom.settings()
-        settings.set(settings.USE_WORLD_COORDS, True)
-
         for space in spaces:
-            area = get_element_area(space, settings)
+            area = get_element_area(space)
             if area > 0:
                 total_area += area
                 valid_spaces += 1

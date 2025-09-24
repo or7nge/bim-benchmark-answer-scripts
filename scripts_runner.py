@@ -1,9 +1,11 @@
+
 import pandas as pd
 from pathlib import Path
 import importlib.util
 import time
 import multiprocessing
 import concurrent.futures
+from tqdm import tqdm
 
 
 def run_benchmark_script(ifc_model_path, script_path):
@@ -38,7 +40,7 @@ def run_benchmark_script(ifc_model_path, script_path):
         return f"Error: {str(e)}"
 
 
-def run_full_benchmark(ifc_model_path, csv_path):
+def run_full_benchmark(ifc_model_path, csv_path, question_ids=None):
     """
     Run all benchmark questions from CSV on an IFC model.
 
@@ -51,11 +53,11 @@ def run_full_benchmark(ifc_model_path, csv_path):
     """
     # Read questions CSV
     df = pd.read_csv(csv_path)
+
     results = {}
 
-    selected_indices = list(range(len(df)))
-    # selected_indices = list(range(20))
-    # selected_indices = [34]
+    if not question_ids:
+        question_ids = df.index.tolist()
 
     def process_question(idx):
         if idx >= len(df):
@@ -78,10 +80,10 @@ def run_full_benchmark(ifc_model_path, csv_path):
             },
         )
 
-    results = {}
     with concurrent.futures.ThreadPoolExecutor(max_workers=multiprocessing.cpu_count()) as executor:
-        future_to_idx = {executor.submit(process_question, idx): idx for idx in selected_indices}
-        for future in concurrent.futures.as_completed(future_to_idx):
+        future_to_idx = {executor.submit(process_question, idx): idx for idx in question_ids}
+        results_iter = concurrent.futures.as_completed(future_to_idx)
+        for future in tqdm(results_iter, total=len(future_to_idx), desc=f"{Path(ifc_model_path).stem}.ifc Benchmark", ncols=120):
             res = future.result()
             if res is not None:
                 q_id, data = res
@@ -103,16 +105,18 @@ def run_full_benchmark(ifc_model_path, csv_path):
             for q_id, data in results.items()
         ]
     )
-    results_df.to_csv(f"model_benchmarks/{Path(ifc_model_path).stem}_answers.csv", index=False)
+    # results_df.to_csv(f"model_benchmarks/{Path(ifc_model_path).stem}_answers.csv", index=False)
     return results
 
 
 # Usage example
 if __name__ == "__main__":
-    # ifc_model_path = "models/sample_house_big.ifc"
-    ifc_model_path = "models/SampleHouse4.ifc"
+    # ifc_model_path = "models/big_house.ifc"
+    ifc_model_path = "models/V_21.ifc"
     csv_path = "questions.csv"
-    results = run_full_benchmark(ifc_model_path, csv_path)
+    question_ids = [17]
+    results = run_full_benchmark(ifc_model_path, csv_path, question_ids)
 
+    print()
     for q_id, data in results.items():
         print(f"{q_id}: {data['question']} - {data['time']}s\n{data['result']}\n")

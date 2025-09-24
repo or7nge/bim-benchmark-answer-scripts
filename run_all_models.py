@@ -13,12 +13,12 @@ def main(models_folder):
         except Exception as e:
             print(f"Error occurred while running scripts_runner.py for model: {models_folder}")
             print(f"Error details: {e}")
-        finally:
-            print(f"Finished processing model: {models_folder}")
+        print()
+        print("Done with single model!")
     else:
         # List all .ifc model files in the specified folder
         model_files = [f for f in os.listdir(models_folder) if os.path.isfile(os.path.join(models_folder, f)) and f.lower().endswith(".ifc")]
-        print(f"Found {len(model_files)} IFC models: {model_files}")
+        print(f"Found {len(model_files)} IFC models: {model_files}\n")
 
         for model_id in range(len(model_files)):
             model_path = os.path.join(models_folder, model_files[model_id])
@@ -27,8 +27,8 @@ def main(models_folder):
             except Exception as e:
                 print(f"Error occurred while running scripts_runner.py for model: {model_path}")
                 print(f"Error details: {e}")
-            finally:
-                print(f"Finished processing model: {model_path} ({model_id + 1}/{len(model_files)})")
+            print()
+        print("Done with all models!")
 
 
 # e.g. python run_all_models.py models
