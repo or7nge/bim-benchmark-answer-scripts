@@ -102,8 +102,6 @@ def _calculate_depth_from_geometry(space):
             settings = ifcopenshell.geom.settings()
             settings.set(settings.USE_WORLD_COORDS, True)
 
-            length_scale = get_length_scale(space)
-
             shape = ifcopenshell.geom.create_shape(settings, space)
             if shape:
                 geometry = shape.geometry
@@ -113,7 +111,7 @@ def _calculate_depth_from_geometry(space):
                     # Extract X,Y coordinates
                     points = []
                     for i in range(0, len(verts), 3):
-                        points.append((verts[i] * length_scale, verts[i + 1] * length_scale))
+                        points.append((verts[i], verts[i + 1]))
 
                     if len(points) >= 4:
                         # Calculate bounding box dimensions

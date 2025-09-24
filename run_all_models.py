@@ -37,3 +37,4 @@ if __name__ == "__main__":
         print(f"Usage: {sys.argv[0]} <models_folder>")
         sys.exit(1)
     main(sys.argv[1])
+

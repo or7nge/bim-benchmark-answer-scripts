@@ -1,5 +1,6 @@
 # Ignore all .ifc models (safety reasons)
 models/*
+small_models/*
 !models/.gitkeep
 
 # Ignore all files in model_benchmarks

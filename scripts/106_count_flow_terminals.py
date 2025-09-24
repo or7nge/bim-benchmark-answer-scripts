@@ -1,0 +1,10 @@
+from scripts.question_helpers import open_ifc, safe_by_type
+
+
+def count_flow_terminals(ifc_file_path):
+    """Count HVAC/MEP flow terminals (diffusers, grilles, outlets)."""
+    try:
+        model = open_ifc(ifc_file_path)
+        return len(safe_by_type(model, "IfcFlowTerminal"))
+    except Exception as exc:  # pragma: no cover
+        return f"Error: {exc}"

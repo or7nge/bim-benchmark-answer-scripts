@@ -122,6 +122,19 @@ def get_volume_scale(obj: Optional[Any] = None, *, ifc_file=None) -> float:
     return _get_unit_scales(obj)["volume"]
 
 
+def _convert_area_value(value: float, *, length_scale: float, area_scale: float) -> float:
+    """Convert a raw area quantity to square metres, correcting malformed units."""
+    if value <= 0:
+        return 0.0
+    converted = value * area_scale
+    if area_scale == 1.0 and length_scale not in (0.0, 1.0):
+        # Some IFC exports store area in the squared length unit without defining AREAUNIT.
+        # Detect overly large values and rescale using the squared length factor.
+        if converted > 1e4:  # heuristically flag suspicious magnitudes (e.g. mm² -> m²)
+            converted = value * (length_scale ** 2)
+    return converted
+
+
 def get_element_area(element):
     """Get area of any IFC element using multiple methods."""
     scales = _get_unit_scales(element)
@@ -129,6 +142,7 @@ def get_element_area(element):
     length_scale = scales["length"]
 
     # Method 1: Quantity sets
+    quantity_candidates: List[Tuple[str, float]] = []
     if hasattr(element, "IsDefinedBy"):
         for rel in element.IsDefinedBy or []:
             if rel.is_a("IfcRelDefinesByProperties"):
@@ -136,7 +150,32 @@ def get_element_area(element):
                 if prop_def and prop_def.is_a("IfcElementQuantity"):
                     for qty in getattr(prop_def, "Quantities", []):
                         if qty.is_a("IfcQuantityArea") and getattr(qty, "AreaValue", None):
-                            return float(qty.AreaValue) * area_scale
+                            name = (getattr(qty, "Name", "") or "").lower()
+                            try:
+                                value = float(qty.AreaValue)
+                            except (TypeError, ValueError):
+                                continue
+                            quantity_candidates.append((name, value))
+
+    if quantity_candidates:
+        priority = [
+            "netsidearea",
+            "grosssidearea",
+            "sidearea",
+            "netarea",
+            "grossarea",
+            "area",
+            "netfloorarea",
+            "grossfloorarea",
+            "surface",
+        ]
+        for key in priority:
+            for name, value in quantity_candidates:
+                if key in name:
+                    return _convert_area_value(value, length_scale=length_scale, area_scale=area_scale)
+        # fallback to the largest available area assumption
+        best = max(value for _, value in quantity_candidates)
+        return _convert_area_value(best, length_scale=length_scale, area_scale=area_scale)
 
     # Method 2: Property sets
     psets = ifcopenshell.util.element.get_psets(element)
@@ -150,7 +189,8 @@ def get_element_area(element):
         )
         if area:
             try:
-                return float(area) * area_scale
+                value = float(area)
+                return _convert_area_value(value, length_scale=length_scale, area_scale=area_scale)
             except (TypeError, ValueError):
                 continue
 
@@ -159,7 +199,9 @@ def get_element_area(element):
     height = getattr(element, "OverallHeight", None)
     if width and height:
         try:
-            return float(width) * length_scale * float(height) * length_scale
+            width_m = float(width) * length_scale
+            height_m = float(height) * length_scale
+            return width_m * height_m
         except (TypeError, ValueError):
             pass
 
@@ -348,25 +390,71 @@ def get_wall_direction(wall):
 
 
 def find_storey_for_element(element, storeys):
-    """Find which storey contains an element"""
-    if hasattr(element, "ContainedInStructure"):
-        for rel in element.ContainedInStructure:
-            if rel.RelatingStructure.is_a("IfcBuildingStorey"):
-                return rel.RelatingStructure
+    """Find which storey contains an element."""
+    storey_ids = {storey.id(): storey for storey in storeys}
+    visited = set()
+    queue = [element]
+
+    while queue:
+        current = queue.pop(0)
+        if current is None:
+            continue
+        try:
+            candidate_id = current.id()
+        except Exception:
+            candidate_id = id(current)
+        if candidate_id in visited:
+            continue
+        visited.add(candidate_id)
+
+        if current.is_a("IfcBuildingStorey"):
+            if not storey_ids or candidate_id in storey_ids:
+                return storey_ids.get(candidate_id, current)
+            return current
+
+        contains = getattr(current, "ContainedInStructure", None) or []
+        for rel in contains:
+            parent = getattr(rel, "RelatingStructure", None)
+            if parent is None:
+                continue
+            if parent.is_a("IfcBuildingStorey"):
+                return storey_ids.get(parent.id(), parent)
+            queue.append(parent)
+
+        decomposes = getattr(current, "Decomposes", None) or []
+        for rel in decomposes:
+            parent = getattr(rel, "RelatingObject", None)
+            if parent is None:
+                continue
+            if parent.is_a("IfcBuildingStorey"):
+                return storey_ids.get(parent.id(), parent)
+            queue.append(parent)
+
+    if storeys:
+        element_id = getattr(element, "id", lambda: None)()
+        for storey in storeys:
+            for rel in getattr(storey, "ContainsElements", None) or []:
+                related = getattr(rel, "RelatedElements", []) or []
+                if element in related:
+                    return storey
+                if element_id is not None and any(getattr(item, "id", lambda: None)() == element_id for item in related):
+                    return storey
     return None
 
 
 def get_spaces_in_storey(storey, spaces):
     """Get all spaces contained in a storey"""
     storey_spaces = []
-
+    target_id = getattr(storey, "id", lambda: None)()
     for space in spaces:
-        if hasattr(space, "ContainedInStructure"):
-            for rel in space.ContainedInStructure:
-                if rel.RelatingStructure == storey:
-                    storey_spaces.append(space)
-                    break
-
+        container = find_storey_for_element(space, [storey])
+        if container is None:
+            continue
+        if container is storey:
+            storey_spaces.append(space)
+            continue
+        if target_id is not None and getattr(container, "id", lambda: None)() == target_id:
+            storey_spaces.append(space)
     return storey_spaces
 
 

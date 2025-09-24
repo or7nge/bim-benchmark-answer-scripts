@@ -105,18 +105,18 @@ def run_full_benchmark(ifc_model_path, csv_path, question_ids=None):
             for q_id, data in results.items()
         ]
     )
-    # results_df.to_csv(f"model_benchmarks/{Path(ifc_model_path).stem}_answers.csv", index=False)
+    results_df.to_csv(f"model_benchmarks/{Path(ifc_model_path).stem}_answers.csv", index=False)
     return results
 
 
 # Usage example
 if __name__ == "__main__":
-    ifc_model_path = "models/big_house.ifc"
-    # ifc_model_path = "models/LargeBuilding.ifc"
+    # ifc_model_path = "models/big_house.ifc"
+    ifc_model_path = "models/V_21.ifc"
     csv_path = "questions.csv"
     question_ids = None
     results = run_full_benchmark(ifc_model_path, csv_path, question_ids)
 
-    print()
-    for q_id, data in results.items():
-        print(f"{q_id}: {data['question']} - {data['time']}s\n{data['result']}\n")
+    # print()
+    # for q_id, data in results.items():
+    #     print(f"{q_id}: {data['question']} - {data['time']}s\n{data['result']}\n")
