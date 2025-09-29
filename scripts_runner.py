@@ -5,7 +5,17 @@ import importlib.util
 import time
 import multiprocessing
 import concurrent.futures
+from queue import Empty
 from tqdm import tqdm
+
+
+SCRIPT_TIMEOUT = 10000  # seconds
+
+
+def _run_script_worker(result_queue, ifc_model_path, script_path):
+    """Execute a benchmark script and push the outcome to the provided queue."""
+    result = run_benchmark_script(ifc_model_path, script_path)
+    result_queue.put(result)
 
 
 def run_benchmark_script(ifc_model_path, script_path):
@@ -66,9 +76,30 @@ def run_full_benchmark(ifc_model_path, csv_path, question_ids=None):
         question_id = row["question_id"]
         script_path = row["script_path"]
 
+        result_queue = multiprocessing.Queue()
+        process = multiprocessing.Process(
+            target=_run_script_worker,
+            args=(result_queue, ifc_model_path, script_path),
+        )
+
         start_time = time.time()
-        result = run_benchmark_script(ifc_model_path, script_path)
-        elapsed = time.time() - start_time
+        process.start()
+        process.join(SCRIPT_TIMEOUT)
+
+        if process.is_alive():
+            process.terminate()
+            process.join()
+            result = "EXECUTION TIMEOUT"
+            elapsed = float(SCRIPT_TIMEOUT)
+        else:
+            try:
+                result = result_queue.get_nowait()
+            except Empty:
+                result = "Error: No result returned"
+            elapsed = time.time() - start_time
+
+        result_queue.close()
+        result_queue.join_thread()
 
         return (
             question_id,
