@@ -9,7 +9,7 @@ from queue import Empty
 from tqdm import tqdm
 
 
-SCRIPT_TIMEOUT = 10000  # seconds
+SCRIPT_TIMEOUT = 8000  # seconds
 
 
 def _run_script_worker(result_queue, ifc_model_path, script_path):
