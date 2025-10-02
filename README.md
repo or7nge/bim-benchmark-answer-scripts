@@ -1,24 +1,23 @@
 # BIM Benchmark Answer Scripts
 
-I built this toolkit during my internship with the Generative Design team at the Artificial Intelligence Research Institute (AIRI) in Moscow, Russia. The GitLab remote keeps the internal branch; this GitHub fork is the public-friendly snapshot. Some of the proprietary features I worked on are still under NDA, so they are not shown here.
+I built this toolkit during my internship with the Generative Design team at the Artificial Intelligence Research Institute (AIRI) in Moscow, Russia. The GitLab remote keeps the internal branch, this GitHub fork is the public-friendly snapshot. Some of the proprietary features I worked on are still under NDA so they are not shown here.
 
 ## What’s in the repo
 
-- `src/bim_benchmark/` – small Python package with the CLI, the path helpers, and the multiprocessing runner.
-- `scripts/` – the per-question scripts (Q001–Q110) that do the heavy lifting.
-- `data/questions.csv` – the catalogue of questions and the script that answers each one.
-- `data/reference_models/` – open-source IFC samples. They are much simpler than the internal AIRI models, so a lot of questions return `0`, empty strings, or placeholders.
-- `data/benchmark_results/` – sample CSV outputs produced from those open-source models.
-- `docs/images/advanced-project-overview.png` – a quick overview render you can reuse.
+- `src/bim_benchmark/` - small Python package with the CLI, the path helpers and the multiprocessing runner.
+- `scripts/` - the per-question scripts (Q001-Q110).
+- `data/questions.csv` - the catalogue of questions and paths to the script that answers them.
+- `data/reference_models/` - open-source IFC models. They are much simpler than the internal AIRI models, so a lot of questions return `0`, empty strings or placeholders.
+- `data/benchmark_results/` - CSV outputs produced from the models.
 
 ## Getting started
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python run_all_models.py                      # run every bundled model
+python run_all_models.py  # run every model
 python run_all_models.py data/reference_models/SimpleWall.ifc --question-id Q001
-python -m bim_benchmark.cli data/reference_models           # same run via the CLI module
+python -m bim_benchmark.cli data/reference_models  # same run via the CLI module
 ```
 
 Use repeated `--question-id` flags to limit the run while you debug individual scripts.
@@ -65,5 +64,5 @@ Screenshot of one of the more complex models.
 
 ## Notes
 
-- Results end up in `data/benchmark_results/<model>_answers.csv`. GitLab remote ignores them because the benchmarks results should be stored separately in an internal server.
-- Push to GitLab with plain `git push`; use `git pushgh <branch>` when you need to sync this fork.
+- Results end up in `data/benchmark_results/<model>_answers.csv`. GitLab remote ignores (`.gitignore`) them because the benchmarks results should be stored separately in an internal server.
+- Push to GitLab with plain `git push`. Use `git pushgh <branch>` when you need to sync this fork.
