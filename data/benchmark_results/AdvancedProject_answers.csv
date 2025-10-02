@@ -1,0 +1,6 @@
+question_id,question,result,difficulty
+Q001,How many walls are there in the building?,0,easy
+Q004,What is the total floor area of all spaces?,0.0,medium
+Q015,Which floor has the most rooms?,,medium
+Q038,How many windows are there on each storey?,,medium
+Q066,What are the top 10 largest spaces by area?,,medium

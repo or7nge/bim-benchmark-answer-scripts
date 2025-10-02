@@ -1,0 +1,111 @@
+question_id,question_text,description,difficulty,expected_output_type,script_path
+Q001,How many walls are there in the building?,Counts every wall element in the IFC model.,easy,integer,scripts/001_count_walls.py
+Q002,How many doors are there in the building?,Counts every door element in the IFC model.,easy,integer,scripts/002_count_doors.py
+Q003,What are the names of all floors/storeys in the building?,Lists the storey names defined for the building.,easy,list,scripts/003_list_storeys.py
+Q004,What is the total floor area of all spaces?,Sums the floor area of all spaces in the model.,medium,float,scripts/004_total_floor_area.py
+Q005,What is the total height of the building?,Computes overall building height from lowest to highest level.,medium,float,scripts/005_building_height.py
+Q006,What materials are used in the walls?,Collects unique material names assigned to wall elements.,medium,list,scripts/006_wall_materials.py
+Q007,What is the name and area of the largest space?,Finds the space with maximum area and returns its name and size.,medium,dict,scripts/007_largest_space.py
+Q008,How many doors are there on each floor?,Counts doors per storey and reports totals by level.,hard,dict,scripts/008_doors_per_floor.py
+Q009,What is the total area of external walls?,Calculates combined surface area of walls facing outside.,hard,float,scripts/009_external_wall_area.py
+Q010,What is the total volume of all enclosed spaces?,Calculates summed volume for every enclosed space.,hard,float,scripts/010_total_space_volume.py
+Q011,Which direction do most windows face?,Identifies the orientation with the highest window count.,medium,string,scripts/011_window_orientation.py
+Q012,What is the ratio of window area to wall area?,Computes window area divided by wall area for the whole building.,hard,float,scripts/012_window_to_wall_ratio.py
+Q013,How many structural columns are there?,Counts all column elements in the model.,easy,integer,scripts/013_count_columns.py
+Q014,What is the average room size in the building?,Calculates mean floor area of all spaces.,medium,float,scripts/014_average_room_size.py
+Q015,Which floor has the most rooms?,Finds the storey containing the greatest number of spaces.,medium,string,scripts/015_floor_most_rooms.py
+Q016,Are there any rooms without windows?,Checks whether any spaces lack associated window elements.,medium,boolean,scripts/016_rooms_without_windows.py
+Q017,What is the total length of all walls combined?,Sums linear length of every wall segment.,hard,float,scripts/017_total_wall_length.py
+Q018,How many different types of building elements are used?,Counts distinct IFC element classes present in the model.,medium,integer,scripts/018_count_element_types.py
+Q019,What is the building's footprint area?,Computes horizontal footprint area projected on the ground plane.,hard,float,scripts/019_building_footprint.py
+Q020,Which room type appears most frequently?,Finds the most common space usage classification.,medium,string,scripts/020_most_common_room_type.py
+Q021,What percentage of the building is glazed (window area vs total wall area)?,Calculates percentage of wall area covered by windows.,hard,float,scripts/021_glazing_percentage.py
+Q022,What is the average ceiling height in the building?,Computes mean ceiling height across all spaces.,medium,float,scripts/022_average_ceiling_height.py
+Q023,How many rooms have natural lighting (contain windows)?,Counts spaces connected to at least one window.,medium,integer,scripts/023_naturally_lit_rooms.py
+Q024,What is the total area of circulation spaces (corridors and hallways)?,Sums area of spaces tagged as circulation zones.,hard,float,scripts/024_circulation_area.py
+Q025,Which floor has the largest total area?,Identifies storey with highest combined space area.,medium,string,scripts/025_largest_floor_area.py
+Q026,How many structural elements (beams + columns + load-bearing walls) are there?,Counts structural beams columns and load bearing walls.,medium,integer,scripts/026_count_structural_elements.py
+Q027,What is the building's aspect ratio (length to width)?,Calculates building plan aspect ratio based on overall extents.,hard,float,scripts/027_building_aspect_ratio.py
+Q028,Which room types have direct access to outdoor spaces?,Lists space categories that touch doors leading outside.,hard,list,scripts/028_rooms_with_outdoor_access.py
+Q029,What is the total perimeter length of the building?,Measures cumulative outer boundary length of the building footprint.,hard,float,scripts/029_building_perimeter.py
+Q030,How many rooms are corner rooms (have walls on 2+ exterior sides)?,Counts spaces bordered by exterior walls on multiple sides.,hard,integer,scripts/030_count_corner_rooms.py
+Q031,What is the ratio of service spaces to usable spaces?,Computes service space count versus usable space count ratio.,hard,float,scripts/031_service_to_usable_ratio.py
+Q032,Which direction has the most external wall area?,Finds orientation with the largest exterior wall area.,medium,string,scripts/032_max_wall_direction.py
+Q033,How many different ceiling heights exist in the building?,Counts unique ceiling height values among spaces.,medium,integer,scripts/033_unique_ceiling_heights.py
+Q034,What is the total volume of enclosed spaces per floor?,Reports space volume totals grouped by storey.,hard,dict,scripts/034_volume_per_floor.py
+Q035,Which rooms share walls with the building exterior?,Lists spaces adjacent to external wall elements.,medium,list,scripts/035_rooms_on_exterior.py
+Q036,What is the average room depth (shortest dimension)?,Calculates mean minimum dimension across all spaces.,medium,float,scripts/036_average_room_depth.py
+Q037,What percentage of floor area is dedicated to vertical circulation (stairs/elevators)?,Computes share of floor area used by stairs and elevators.,hard,float,scripts/037_vertical_circulation_percentage.py
+Q038,How many windows are on each storey?,Counts windows grouped by storey.,easy,dict,scripts/038_windows_per_storey.py
+Q039,What is the window count by cardinal orientation?,Counts windows per cardinal orientation.,easy,dict,scripts/039_window_orientation_breakdown.py
+Q040,What is the door count by cardinal orientation?,Counts doors per cardinal orientation.,easy,dict,scripts/040_door_orientation_breakdown.py
+Q041,What is the total window area for each orientation?,Sums window area per orientation.,medium,dict,scripts/041_window_area_by_orientation.py
+Q042,What is the total window area on each storey?,Sums window area grouped by storey.,medium,dict,scripts/042_window_area_by_storey.py
+Q043,What are the min avg and max window widths and heights?,Provides minimum average and maximum window dimensions.,medium,dict,scripts/043_window_dimension_statistics.py
+Q044,How are window areas distributed in one square metre buckets?,Groups window areas into one square metre bins and counts occurrences.,medium,dict,scripts/044_window_area_distribution.py
+Q045,How many windows are larger than two square metres?,Counts windows exceeding two square metres of area.,easy,integer,scripts/045_windows_larger_than_two_sq_m.py
+Q046,Which five windows have the largest glazed area?,Returns the five windows with the greatest glazing area.,medium,list,scripts/046_largest_windows.py
+Q047,Which storey has the fewest doors?,Identifies the storey with the smallest door count.,easy,string,scripts/047_storey_fewest_doors.py
+Q048,What is the door orientation breakdown per storey?,Reports door orientation totals for each storey.,medium,dict,scripts/048_door_orientation_by_storey.py
+Q049,What are the min avg and max door widths and heights?,Provides minimum average and maximum door dimensions.,medium,dict,scripts/049_door_dimension_statistics.py
+Q050,How many doors are wider than one metre?,Counts doors wider than one metre.,easy,integer,scripts/050_doors_wider_than_one_meter.py
+Q051,What is the total door leaf area per storey?,Sums door leaf area for each storey.,medium,dict,scripts/051_door_area_by_storey.py
+Q052,How many doors connect multiple spaces?,Counts doors linked to more than one space.,medium,integer,scripts/052_doors_connecting_multiple_spaces.py
+Q053,What is the total external wall length by orientation?,Reports external wall length grouped by orientation.,medium,dict,scripts/053_external_wall_length_by_orientation.py
+Q054,How many external walls belong to each storey?,Counts external walls assigned to each storey.,medium,dict,scripts/054_external_walls_per_storey.py
+Q055,What is the external wall area per storey?,Sums exterior wall area per storey.,medium,dict,scripts/055_external_wall_area_by_storey.py
+Q056,What is the internal wall area per storey?,Sums internal wall area per storey.,medium,dict,scripts/056_internal_wall_area_by_storey.py
+Q057,What is the ratio of external to internal wall area?,Computes ratio between external and internal wall area.,medium,float,scripts/057_external_to_internal_wall_area_ratio.py
+Q058,How many curtain walls are in the building?,Counts curtain wall elements in the model.,easy,integer,scripts/058_count_curtain_walls.py
+Q059,How do glazing and wall areas compare by orientation?,Compares window area and wall area for each orientation.,hard,dict,scripts/059_glazing_vs_wall_area_by_orientation.py
+Q060,What is the total building envelope area including walls roofs and windows?,Calculates combined area of walls roofs and windows.,medium,float,scripts/060_building_envelope_area.py
+Q061,What is the total space area per storey?,Summarizes total space area for each storey.,medium,dict,scripts/061_space_area_by_storey.py
+Q062,What is the average space area on each storey?,Calculates mean space area per storey.,medium,dict,scripts/062_average_space_area_by_storey.py
+Q063,Which storey has the largest average room area?,Identifies storey with the highest average space area.,medium,string,scripts/063_storey_highest_average_room_area.py
+Q064,How many spaces fall into each usage category?,Counts spaces per inferred usage category.,medium,dict,scripts/064_space_usage_breakdown.py
+Q065,Which spaces exceed fifty square metres?,Lists spaces larger than fifty square metres.,medium,list,scripts/065_large_spaces_over_50sqm.py
+Q066,What are the ten largest spaces by area?,Returns the ten spaces with the greatest floor area.,medium,list,scripts/066_top10_largest_spaces.py
+Q067,What are the ten tallest spaces?,Returns the ten spaces with the greatest height.,medium,list,scripts/067_top10_tallest_spaces.py
+Q068,What are the overall space height statistics?,Provides minimum average and maximum space heights.,medium,dict,scripts/068_space_height_statistics.py
+Q069,What is the average ceiling height per storey?,Calculates average ceiling height for each storey.,medium,dict,scripts/069_average_ceiling_height_by_storey.py
+Q070,How many spaces lack any doors?,Counts spaces without connected door elements.,medium,integer,scripts/070_spaces_without_doors.py
+Q071,How many spaces connect to multiple doors?,Counts spaces linked to more than one door.,medium,integer,scripts/071_spaces_with_multiple_doors.py
+Q072,How many spaces have at least three windows?,Counts spaces containing three or more windows.,medium,integer,scripts/072_spaces_with_multiple_windows.py
+Q073,Which spaces receive windows from multiple orientations?,Lists spaces with windows facing different orientations.,hard,list,scripts/073_spaces_with_multi_orientation_windows.py
+Q074,What fraction of spaces on each storey have windows?,Computes windowed space share per storey.,hard,dict,scripts/074_windowed_space_ratio_by_storey.py
+Q075,What proportion of total space area is naturally lit?,Calculates percentage of total area belonging to windowed spaces.,medium,float,scripts/075_lit_space_area_ratio.py
+Q076,How are space areas distributed in ten square metre buckets?,Groups space areas into ten square metre bins and counts occurrences.,medium,dict,scripts/076_space_area_distribution.py
+Q077,How many spaces measure between ten and twenty square metres?,Counts spaces whose area falls between ten and twenty square metres.,easy,integer,scripts/077_spaces_between_10_and_20sqm.py
+Q078,What is the average plan aspect ratio of spaces?,Calculates mean plan aspect ratio across spaces.,medium,float,scripts/078_average_space_aspect_ratio.py
+Q079,Which spaces have an aspect ratio above two to one?,Lists spaces whose plan aspect ratio exceeds two to one.,medium,list,scripts/079_spaces_high_aspect_ratio.py
+Q080,What is the total area dedicated to corridors and halls?,Sums area of spaces classified as corridors or halls.,medium,float,scripts/080_corridor_area_total.py
+Q081,What is the total area of bathrooms and restrooms?,Sums area of spaces tagged as bathrooms or restrooms.,medium,float,scripts/081_bathroom_area_total.py
+Q082,How much area belongs to each inferred usage category?,Reports total area per inferred usage category.,medium,dict,scripts/082_space_area_by_usage.py
+Q083,Which storey has the greatest circulation area?,Identifies storey with the largest circulation area.,medium,string,scripts/083_storey_largest_circulation_area.py
+Q084,Which spaces are taller than four metres?,Lists spaces with height greater than four metres.,medium,list,scripts/084_spaces_over_4m_height.py
+Q085,What is the total volume of spaces that have windows?,Sums volume of spaces containing windows.,medium,float,scripts/085_volume_of_lit_spaces.py
+Q086,How do storeys rank by total enclosed volume?,Ranks storeys by total enclosed volume.,medium,list,scripts/086_storey_volume_ranking.py
+Q087,What are the height differences between successive storeys?,Lists height differences between consecutive storeys.,medium,list,scripts/087_storey_height_differences.py
+Q088,What is the average storey to storey height?,Calculates average vertical spacing between storeys.,medium,float,scripts/088_average_storey_height.py
+Q089,How many storeys sit at or above ground level?,Counts storeys at or above the ground plane.,easy,integer,scripts/089_storeys_above_ground.py
+Q090,How many storeys are below ground level?,Counts storeys located below the ground plane.,easy,integer,scripts/090_storeys_below_ground.py
+Q091,Which storey has the most exterior wall area?,Identifies storey with greatest exterior wall area.,medium,string,scripts/091_storey_largest_external_wall_area.py
+Q092,Which storey has the highest door density?,Finds storey with most doors relative to area.,hard,string,scripts/092_storey_highest_door_density.py
+Q093,Which storey hosts the most columns?,Identifies storey containing the highest number of columns.,medium,string,scripts/093_storey_most_columns.py
+Q094,How many columns are on each storey?,Counts columns grouped by storey.,medium,dict,scripts/094_column_count_by_storey.py
+Q095,Which storey has the most windows?,Identifies storey with the highest window count.,medium,string,scripts/095_storey_most_windows.py
+Q096,How many beams are in the building?,Counts all beam elements in the model.,easy,integer,scripts/096_count_beams.py
+Q097,What is the total beam length?,Sums linear length of all beam elements.,medium,float,scripts/097_total_beam_length.py
+Q098,What is the total column height sum?,Sums heights of all column elements.,medium,float,scripts/098_total_column_height.py
+Q099,How many stairs and flights are present?,Counts stair assemblies and their flights.,medium,dict,scripts/099_count_stairs.py
+Q100,How many stairs ramps and elevators are there?,Counts vertical circulation elements grouped by type.,medium,dict,scripts/100_vertical_circulation_counts.py
+Q101,How many ramps including flights are in the model?,Counts ramp systems and their flights in the model.,easy,integer,scripts/101_count_ramps.py
+Q102,What is the total ramp length?,Sums the run length of all ramps.,medium,float,scripts/102_total_ramp_length.py
+Q103,How many elevators are present?,Counts elevator elements in the model.,easy,integer,scripts/103_count_elevators.py
+Q104,What is the total roof area?,Calculates combined area of roof elements.,medium,float,scripts/104_total_roof_area.py
+Q105,What is the total slab area per storey?,Sums slab area for each storey.,medium,dict,scripts/105_slab_area_by_storey.py
+Q106,How many flow terminals such as diffusers or grilles exist?,Counts ventilation flow terminal elements including diffusers and grilles.,medium,integer,scripts/106_count_flow_terminals.py
+Q107,How many light fixtures are in the model?,Counts light fixture elements in the model.,easy,integer,scripts/107_count_light_fixtures.py
+Q108,How many furniture elements are present?,Counts furniture elements in the model.,easy,integer,scripts/108_count_furniture.py
+Q109,Which furniture types appear most frequently?,Lists the most common furniture categories.,medium,list,scripts/109_top_furniture_types.py
+Q110,What is the total railing length?,Sums length of all railing elements.,medium,float,scripts/110_total_railing_length.py

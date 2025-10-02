@@ -1,0 +1,111 @@
+question_id,question,result,difficulty,model,time_seconds
+Q001,How many walls are there in the building?,3,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.147
+Q002,How many doors are there in the building?,14,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.933
+Q003,What are the names of all floors/storeys in the building?,['Level 1'],easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.973
+Q004,What is the total floor area of all spaces?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.0
+Q005,What is the total height of the building?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.043
+Q006,What materials are used in the walls?,['Default Wall'],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.028
+Q007,What is the name and area of the largest space?,"{'name': 'No spaces found', 'area': 0.0}",medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.075
+Q008,How many doors are there on each floor?,{'Level 1': 14},hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.1
+Q009,What is the total area of external walls?,185.2,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.14
+Q010,What is the total volume of all enclosed spaces?,0.0,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.051
+Q011,Which direction do most windows face?,No windows found,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.079
+Q012,What is the ratio of window area to wall area?,0.0,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.967
+Q013,How many structural columns are there?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.02
+Q014,What is the average room size in the building?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.096
+Q015,Which floor has the most rooms?,No rooms found,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.255
+Q016,Are there any rooms without windows?,False,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.223
+Q017,What is the total length of all walls combined?,31.7,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.464
+Q018,How many different types of building elements are used?,4,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.246
+Q019,What is the building's footprint area?,151.31,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.366
+Q020,Which room type appears most frequently?,No rooms found,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.228
+Q021,What percentage of the building is glazed (window area vs total wall area)?,0.0,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.517
+Q022,What is the average ceiling height in the building?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.421
+Q023,How many rooms have natural lighting (contain windows)?,0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.463
+Q024,What is the total area of circulation spaces (corridors and hallways)?,0.0,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.296
+Q025,Which floor has the largest total area?,No floor areas found,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.316
+Q026,How many structural elements (beams + columns + load-bearing walls) are there?,Error: module 'ifcopenshell.util' has no attribute 'element',medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.33
+Q027,What is the building's aspect ratio (length to width)?,1.93,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.371
+Q028,Which room types have direct access to outdoor spaces?,[],hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,8.718
+Q029,What is the total perimeter length of the building?,31.7,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.067
+Q030,How many rooms are corner rooms (have walls on 2+ exterior sides)?,0,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.981
+Q031,What is the ratio of service spaces to usable spaces?,0.0,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.998
+Q032,Which direction has the most external wall area?,North,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.012
+Q033,How many different ceiling heights exist in the building?,0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.048
+Q034,What is the total volume of enclosed spaces per floor?,{'error': 'No rooms (IfcSpace) found'},hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.016
+Q035,Which rooms share walls with the building exterior?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.027
+Q036,What is the average room depth (shortest dimension)?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.061
+Q037,What percentage of floor area is dedicated to vertical circulation (stairs/elevators)?,0.0,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.017
+Q038,How many windows are on each storey?,{'No windows found': 0},easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.993
+Q039,What is the window count by cardinal orientation?,{'No windows found': 0},easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.003
+Q040,What is the door count by cardinal orientation?,"{'South': 10, 'North': 4}",easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.024
+Q041,What is the total window area for each orientation?,{'No windows found': 0.0},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.004
+Q042,What is the total window area on each storey?,{'No windows found': 0.0},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,57.265
+Q043,What are the min avg and max window widths and heights?,"{'count': 0, 'average_width': 0.0, 'average_height': 0.0}",medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,65.588
+Q044,How are window areas distributed in one square metre buckets?,{},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,65.574
+Q045,How many windows are larger than two square metres?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,65.747
+Q046,Which five windows have the largest glazed area?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,65.544
+Q047,Which storey has the fewest doors?,Level 1,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,66.46
+Q048,What is the door orientation breakdown per storey?,"{'Level 1': {'South': 10, 'North': 4}}",medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,66.066
+Q049,What are the min avg and max door widths and heights?,"{'count': 14, 'width_min': 0.915, 'width_max': 1.55, 'width_avg': 0.9603571428571429, 'height_min': 2.025, 'height_max': 2.134, 'height_avg': 2.1262142857142856}",medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,66.482
+Q050,How many doors are wider than one metre?,1,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,66.073
+Q051,What is the total door leaf area per storey?,{'Level 1': 28.52268},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,65.098
+Q052,How many doors connect multiple spaces?,0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,66.269
+Q053,What is the total external wall length by orientation?,{'North': 31.700000000000003},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,66.251
+Q054,How many external walls belong to each storey?,{'Level 1': 3},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,66.31
+Q055,What is the external wall area per storey?,{'Level 1': 185.2},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,66.354
+Q056,What is the internal wall area per storey?,{'No internal walls': 0.0},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,16.364
+Q057,What is the ratio of external to internal wall area?,inf,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,8.259
+Q058,How many curtain walls are in the building?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,8.197
+Q059,How do glazing and wall areas compare by orientation?,"{'North': {'wall_area': 185.2, 'window_area': 0.0}}",hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,8.023
+Q060,What is the total building envelope area including walls roofs and windows?,185.2,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.994
+Q061,What is the total space area per storey?,{},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,8.079
+Q062,What is the average space area on each storey?,{},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.364
+Q063,Which storey has the largest average room area?,No spaces found,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.574
+Q064,How many spaces fall into each usage category?,{},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.313
+Q065,Which spaces exceed fifty square metres?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.255
+Q066,What are the ten largest spaces by area?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.052
+Q067,What are the ten tallest spaces?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.097
+Q068,What are the overall space height statistics?,"{'count': 0, 'min': 0.0, 'max': 0.0, 'average': 0.0}",medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.999
+Q069,What is the average ceiling height per storey?,{},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,7.066
+Q070,How many spaces lack any doors?,0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.7
+Q071,How many spaces connect to multiple doors?,0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.837
+Q072,How many spaces have at least three windows?,0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.852
+Q073,Which spaces receive windows from multiple orientations?,[],hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.971
+Q074,What fraction of spaces on each storey have windows?,{},hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.848
+Q075,What proportion of total space area is naturally lit?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.875
+Q076,How are space areas distributed in ten square metre buckets?,{},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.865
+Q077,How many spaces measure between ten and twenty square metres?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.815
+Q078,What is the average plan aspect ratio of spaces?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.85
+Q079,Which spaces have an aspect ratio above two to one?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.844
+Q080,What is the total area dedicated to corridors and halls?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.844
+Q081,What is the total area of bathrooms and restrooms?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.834
+Q082,How much area belongs to each inferred usage category?,{},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.825
+Q083,Which storey has the greatest circulation area?,No spaces found,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.836
+Q084,Which spaces are taller than four metres?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.778
+Q085,What is the total volume of spaces that have windows?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.883
+Q086,How do storeys rank by total enclosed volume?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.846
+Q087,What are the height differences between successive storeys?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.917
+Q088,What is the average storey to storey height?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.903
+Q089,How many storeys sit at or above ground level?,1,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.92
+Q090,How many storeys are below ground level?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.879
+Q091,Which storey has the most exterior wall area?,Level 1,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.883
+Q092,Which storey has the highest door density?,Insufficient data,hard,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.848
+Q093,Which storey hosts the most columns?,No columns found,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.913
+Q094,How many columns are on each storey?,{'No columns': 0},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.89
+Q095,Which storey has the most windows?,No windows found,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.88
+Q096,How many beams are in the building?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.871
+Q097,What is the total beam length?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.881
+Q098,What is the total column height sum?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.778
+Q099,How many stairs and flights are present?,"{'IfcStair': 0, 'IfcStairFlight': 0, 'total': 0}",medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.712
+Q100,How many stairs ramps and elevators are there?,"{'stairs': 0, 'ramps': 0, 'elevators': 0}",medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.717
+Q101,How many ramps including flights are in the model?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.719
+Q102,What is the total ramp length?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.72
+Q103,How many elevators are present?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.741
+Q104,What is the total roof area?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.732
+Q105,What is the total slab area per storey?,{'No slabs': 0.0},medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.736
+Q106,How many flow terminals such as diffusers or grilles exist?,0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.749
+Q107,How many light fixtures are in the model?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.712
+Q108,How many furniture elements are present?,0,easy,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.717
+Q109,Which furniture types appear most frequently?,[],medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.729
+Q110,What is the total railing length?,0.0,medium,/Users/andrew/Documents/git/bim-benchmark-answer-scripts/data/reference_models/ManySimpleWalls.ifc,6.698
